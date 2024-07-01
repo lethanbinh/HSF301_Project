@@ -20,7 +20,7 @@ public class Order {
     private User user;
 
     @Column(name = "orderDate")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
 
     @Column(name = "status")

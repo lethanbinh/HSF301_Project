@@ -10,8 +10,6 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login (HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        session.setAttribute("USER", "");
         return "login";
     }
 
