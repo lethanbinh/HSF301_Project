@@ -1,6 +1,7 @@
 package hsf301.fe.com.controller;
 
 import hsf301.fe.com.service.ProductService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,9 @@ public class ProductController {
     }
 
     @GetMapping("/product-detail")
-    public String productDetail () {
+    public String productDetail (Model model, HttpServletRequest request) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        model.addAttribute("PRODUCT", productService.findById(id));
         return "product-detail";
     }
 

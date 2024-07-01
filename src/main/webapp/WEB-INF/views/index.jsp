@@ -1,3 +1,7 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,6 +35,16 @@
 
     <body>
         <jsp:include page="./common/header.jsp"></jsp:include>
+        <c:if test="${not empty SUCCESS_MESSAGE}">
+            <div class="alert alert-success">
+                ${SUCCESS_MESSAGE}
+            </div>
+        </c:if>
+        <c:if test="${not empty ERROR_MESSAGE}">
+            <div class="alert alert-danger">
+                ${ERROR_MESSAGE}
+            </div>
+        </c:if>
 
         <!-- Hero Start -->
         <div class="container-fluid py-5 mb-5 hero-header">
@@ -125,287 +139,388 @@
         </div>
         <!-- Featurs Section End -->
 
-
         <!-- Fruits Shop Start-->
         <div class="container-fluid fruite py-5">
             <div class="container py-5">
                 <div class="tab-class text-center">
                     <div class="row g-4">
-                        <div class="col-lg-4 text-start">
+                        <div class="col-lg-12 text-start">
                             <h1>Our Organic Products</h1>
                         </div>
-                        <div class="col-lg-8 text-end">
+                        <div class="col-lg-12 text-end">
                             <ul class="nav nav-pills d-inline-flex text-center mb-5">
-                                <li class="nav-item">
+                                <li class="nav-item" style="width: 25%">
                                     <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-1">
-                                        <span class="text-dark" style="width: 130px;">All Products</span>
+                                        <span class="text-dark" style="display: inline-block; width: 100%; text-align: center">All Products</span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item" style="width: 25%">
                                     <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
-                                        <span class="text-dark" style="width: 130px;">Vegetables</span>
+                                        <span class="text-dark" style="display: inline-block; width: 100%; text-align: center">Infant Formula</span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item" style="width: 25%">
                                     <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3">
-                                        <span class="text-dark" style="width: 130px;">Fruits</span>
+                                        <span class="text-dark" style="display: inline-block; width: 100%; text-align: center">Baby Milk</span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item" style="width: 25%">
                                     <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-4">
-                                        <span class="text-dark" style="width: 130px;">Bread</span>
+                                        <span class="text-dark" style="display: inline-block; width: 100%; text-align: center">Breast Milk Substitutes</span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item" style="width: 25%">
                                     <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5">
-                                        <span class="text-dark" style="width: 130px;">Meat</span>
+                                        <span class="text-dark" style="display: inline-block; width: 100%; text-align: center">Specialty Baby Formulas</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" style="width: 25%">
+                                    <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-6">
+                                        <span class="text-dark" style="display: inline-block; width: 100%; text-align: center">Maternal Milk</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" style="width: 25%">
+                                    <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-7">
+                                        <span class="text-dark" style="display: inline-block; width: 100%; text-align: center">Milk-Based Drinks for Kids</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" style="width: 25%">
+                                    <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-8">
+                                        <span class="text-dark" style="display: inline-block; width: 100%; text-align: center">Nutritional Supplements</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" style="width: 25%">
+                                    <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-9">
+                                        <span class="text-dark" style="display: inline-block; width: 100%; text-align: center">Dairy-Free Alternatives</span>
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="tab-content">
+                        <!-- All Products Tab -->
                         <div id="tab-1" class="tab-pane fade show p-0 active">
                             <div class="row g-4">
                                 <div class="col-lg-12">
                                     <div class="row g-4">
-                                         <div class="col-md-6 col-lg-6 col-xl-4">
-                                            <a href="/product-detail">
-                                                 <div class="rounded position-relative fruite-item">
-                                                     <div class="fruite-img">
-                                                         <img src="img/fruite-item-5.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                                     </div>
-                                                     <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                     <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                         <h4>Grapes</h4>
-                                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                         <div class="d-flex justify-content-between flex-lg-wrap">
-                                                             <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                             <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                            </a>
-                                         </div>
-
-                                         <div class="col-md-6 col-lg-6 col-xl-4">
-                                            <a href="/product-detail">
-                                                 <div class="rounded position-relative fruite-item">
-                                                     <div class="fruite-img">
-                                                         <img src="img/fruite-item-5.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                                     </div>
-                                                     <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                     <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                         <h4>Grapes</h4>
-                                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                         <div class="d-flex justify-content-between flex-lg-wrap">
-                                                             <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                             <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                            </a>
-                                         </div>
-
-                                         <div class="col-md-6 col-lg-6 col-xl-4">
-                                            <a href="/product-detail">
-                                                 <div class="rounded position-relative fruite-item">
-                                                     <div class="fruite-img">
-                                                         <img src="img/fruite-item-5.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                                     </div>
-                                                     <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                     <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                         <h4>Grapes</h4>
-                                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                         <div class="d-flex justify-content-between flex-lg-wrap">
-                                                             <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                             <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                            </a>
-                                         </div>
+                                        <c:forEach var="product" items="${PRODUCT_LIST}">
+                                            <div class="col-md-6 col-lg-6 col-xl-4">
+                                                <a href="/product-detail?id=${product.id}">
+                                                    <div class="rounded position-relative fruite-item">
+                                                        <div class="fruite-img">
+                                                            <img src="${product.imageUrl}" class="img-fluid w-100 rounded-top" alt="">
+                                                        </div>
+                                                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.category}</div>
+                                                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                            <h4>${product.name}</h4>
+                                                            <p>${product.description}</p>
+                                                            <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
+                                                                <form action="/cart/add-item?productId=${product.id}&username=${sessionScope.USER.username}" method="POST">
+                                                                <button class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                                </button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Infant Formula Tab -->
                         <div id="tab-2" class="tab-pane fade show p-0">
                             <div class="row g-4">
                                 <div class="col-lg-12">
                                     <div class="row g-4">
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="img/fruite-item-5.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                        <c:forEach var="product" items="${PRODUCT_LIST}">
+                                            <c:if test="${product.category == 'Infant Formula'}">
+                                                <div class="col-md-6 col-lg-6 col-xl-4">
+                                                    <a href="/product-detail?id=${product.id}">
+                                                        <div class="rounded position-relative fruite-item">
+                                                            <div class="fruite-img">
+                                                                <img src="${product.imageUrl}" class="img-fluid w-100 rounded-top" alt="">
+                                                            </div>
+                                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.category}</div>
+                                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <h4>${product.name}</h4>
+                                                                <p>${product.description}</p>
+                                                                <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                    <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
+                                                                    <form action="/cart/add-item?productId=${product.id}&username=${sessionScope.USER.username}" method="POST">
+                                                                    <button class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                                    </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Grapes</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="img/fruite-item-2.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Raspberries</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            </c:if>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Baby Milk Tab -->
                         <div id="tab-3" class="tab-pane fade show p-0">
                             <div class="row g-4">
                                 <div class="col-lg-12">
                                     <div class="row g-4">
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="img/fruite-item-1.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                        <c:forEach var="product" items="${PRODUCT_LIST}">
+                                            <c:if test="${product.category == 'Baby Milk'}">
+                                                <div class="col-md-6 col-lg-6 col-xl-4">
+                                                    <a href="/product-detail?id=${product.id}">
+                                                        <div class="rounded position-relative fruite-item">
+                                                            <div class="fruite-img">
+                                                                <img src="${product.imageUrl}" class="img-fluid w-100 rounded-top" alt="">
+                                                            </div>
+                                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.category}</div>
+                                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <h4>${product.name}</h4>
+                                                                <p>${product.description}</p>
+                                                                <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                    <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
+                                                                    <form action="/cart/add-item?productId=${product.id}&username=${sessionScope.USER.username}" method="POST">
+                                                                    <button class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                                    </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Oranges</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="img/fruite-item-6.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Apple</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            </c:if>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Breast Milk Substitutes Tab -->
                         <div id="tab-4" class="tab-pane fade show p-0">
                             <div class="row g-4">
                                 <div class="col-lg-12">
                                     <div class="row g-4">
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="img/fruite-item-5.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                        <c:forEach var="product" items="${PRODUCT_LIST}">
+                                            <c:if test="${product.category == 'Breast Milk Substitutes'}">
+                                                <div class="col-md-6 col-lg-6 col-xl-4">
+                                                    <a href="/product-detail?id=${product.id}">
+                                                        <div class="rounded position-relative fruite-item">
+                                                            <div class="fruite-img">
+                                                                <img src="${product.imageUrl}" class="img-fluid w-100 rounded-top" alt="">
+                                                            </div>
+                                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.category}</div>
+                                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <h4>${product.name}</h4>
+                                                                <p>${product.description}</p>
+                                                                <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                    <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
+                                                                    <form action="/cart/add-item?productId=${product.id}&username=${sessionScope.USER.username}" method="POST">
+                                                                    <button class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                                    </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Grapes</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="img/fruite-item-4.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Apricots</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            </c:if>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Specialty Baby Formulas Tab -->
                         <div id="tab-5" class="tab-pane fade show p-0">
                             <div class="row g-4">
                                 <div class="col-lg-12">
                                     <div class="row g-4">
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="img/fruite-item-3.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                        <c:forEach var="product" items="${PRODUCT_LIST}">
+                                            <c:if test="${product.category == 'Specialty Baby Formulas'}">
+                                                <div class="col-md-6 col-lg-6 col-xl-4">
+                                                    <a href="/product-detail?id=${product.id}">
+                                                        <div class="rounded position-relative fruite-item">
+                                                            <div class="fruite-img">
+                                                                <img src="${product.imageUrl}" class="img-fluid w-100 rounded-top" alt="">
+                                                            </div>
+                                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.category}</div>
+                                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <h4>${product.name}</h4>
+                                                                <p>${product.description}</p>
+                                                                <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                    <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
+                                                                    <form action="/cart/add-item?productId=${product.id}&username=${sessionScope.USER.username}" method="POST">
+                                                                    <button class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                                    </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Banana</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
+                                            </c:if>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Maternal Milk Tab -->
+                        <div id="tab-6" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-12">
+                                    <div class="row g-4">
+                                        <c:forEach var="product" items="${PRODUCT_LIST}">
+                                            <c:if test="${product.category == 'Maternal Milk'}">
+                                                <div class="col-md-6 col-lg-6 col-xl-4">
+                                                    <a href="/product-detail?id=${product.id}">
+                                                        <div class="rounded position-relative fruite-item">
+                                                            <div class="fruite-img">
+                                                                <img src="${product.imageUrl}" class="img-fluid w-100 rounded-top" alt="">
+                                                            </div>
+                                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.category}</div>
+                                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <h4>${product.name}</h4>
+                                                                <p>${product.description}</p>
+                                                                <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                    <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
+                                                                    <form action="/cart/add-item?productId=${product.id}&username=${sessionScope.USER.username}" method="POST">
+                                                                    <button class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                                    </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="img/fruite-item-2.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                            </c:if>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Milk-Based Drinks for Kids Tab -->
+                        <div id="tab-7" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-12">
+                                    <div class="row g-4">
+                                        <c:forEach var="product" items="${PRODUCT_LIST}">
+                                            <c:if test="${product.category == 'Milk-Based Drinks for Kids'}">
+                                                <div class="col-md-6 col-lg-6 col-xl-4">
+                                                    <a href="/product-detail?id=${product.id}">
+                                                        <div class="rounded position-relative fruite-item">
+                                                            <div class="fruite-img">
+                                                                <img src="${product.imageUrl}" class="img-fluid w-100 rounded-top" alt="">
+                                                            </div>
+                                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.category}</div>
+                                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <h4>${product.name}</h4>
+                                                                <p>${product.description}</p>
+                                                                <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                    <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
+                                                                    <form action="/cart/add-item?productId=${product.id}&username=${sessionScope.USER.username}" method="POST">
+                                                                    <button class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                                    </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Raspberries</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
+                                            </c:if>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nutritional Supplements Tab -->
+                        <div id="tab-8" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-12">
+                                    <div class="row g-4">
+                                        <c:forEach var="product" items="${PRODUCT_LIST}">
+                                            <c:if test="${product.category == 'Nutritional Supplements'}">
+                                                <div class="col-md-6 col-lg-6 col-xl-4">
+                                                    <a href="/product-detail?id=${product.id}">
+                                                        <div class="rounded position-relative fruite-item">
+                                                            <div class="fruite-img">
+                                                                <img src="${product.imageUrl}" class="img-fluid w-100 rounded-top" alt="">
+                                                            </div>
+                                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.category}</div>
+                                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <h4>${product.name}</h4>
+                                                                <p>${product.description}</p>
+                                                                <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                    <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
+                                                                    <form action="/cart/add-item?productId=${product.id}&username=${sessionScope.USER.username}" method="POST">
+                                                                    <button class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                                    </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="img/fruite-item-1.jpg" class="img-fluid w-100 rounded-top" alt="">
+                                            </c:if>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dairy-Free Alternatives Tab -->
+                        <div id="tab-9" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-12">
+                                    <div class="row g-4">
+                                        <c:forEach var="product" items="${PRODUCT_LIST}">
+                                            <c:if test="${product.category == 'Dairy-Free Alternatives'}">
+                                                <div class="col-md-6 col-lg-6 col-xl-4">
+                                                    <a href="/product-detail?id=${product.id}">
+                                                        <div class="rounded position-relative fruite-item">
+                                                            <div class="fruite-img">
+                                                                <img src="${product.imageUrl}" class="img-fluid w-100 rounded-top" alt="">
+                                                            </div>
+                                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.category}</div>
+                                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                                <h4>${product.name}</h4>
+                                                                <p>${product.description}</p>
+                                                                <div class="d-flex justify-content-between flex-lg-wrap">
+                                                                    <p class="text-dark fs-5 fw-bold mb-0">$${product.price}</p>
+                                                                    <form action="/cart/add-item?productId=${product.id}&username=${sessionScope.USER.username}" method="POST">
+                                                                    <button class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                                    </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Oranges</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            </c:if>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
