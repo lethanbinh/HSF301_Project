@@ -22,7 +22,6 @@
                                 <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Product</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                     <a href="/product-list" class="dropdown-item">View product</a>
-                                    <a href="/product-detail" class="dropdown-item">Product detail</a>
                                     <a href="/manage-product" class="dropdown-item">Manage product</a>
                                 </div>
                             </div>
