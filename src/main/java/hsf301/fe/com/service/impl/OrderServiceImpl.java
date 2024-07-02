@@ -3,6 +3,7 @@ package hsf301.fe.com.service.impl;
 import hsf301.fe.com.pojo.*;
 import hsf301.fe.com.repository.*;
 import hsf301.fe.com.service.OrderService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderItemRepository orderItemRepository;
 
     @Override
+    @Transactional
     public Cart addItemToCart(int productId, String username) {
         User user = userRepository.findByUsername(username);
         Cart cart = cartRepository.findByUserUsername(username);
@@ -65,6 +67,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Cart updateItemQuantity(int cartItemId, String username, int quantity) {
         CartItem cartItem = cartItemRepository.findById(cartItemId);
         if (quantity >= 1 && cartItem.getProduct().getStock() >= quantity) {
@@ -81,16 +84,17 @@ public class OrderServiceImpl implements OrderService {
         Cart cart = cartItem.getCart();
         cartItemRepository.delete(cartItem);
         updateCartTotal(cart);
-
         return cart;
     }
 
     @Override
-    public boolean checkout(String username) {
+    @Transactional
+    public boolean createOrder(String username) {
         User user = userRepository.findByUsername(username);
         Cart cart = user.getCart();
 
-        // Tạo order từ giỏ hàng
+        updateCartTotal(cart);
+        // Create order from cart
         Order order = new Order();
         order.setUser(user);
         order.setOrderDate(new Date());
@@ -98,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
         order.setTotal(cart.getTotal());
         order = orderRepository.save(order);
 
-        // Tạo order items từ cart items
+        // Create order items from cart items
         for (CartItem cartItem : cart.getCartItems()) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
@@ -108,13 +112,15 @@ public class OrderServiceImpl implements OrderService {
             orderItemRepository.save(orderItem);
         }
 
-        // Xóa giỏ hàng và các cart items liên quan
-        cartRepository.deleteById(cart.getId());
+        // Clear the cart
+        cart.getCartItems().clear();
+        cartRepository.delete(cart);
 
         return true;
     }
 
     @Override
+    @Transactional
     public void updateCartTotal(Cart cart) {
         List<CartItem> cartItems = cart.getCartItems();
         double total = 0;
@@ -123,5 +129,24 @@ public class OrderServiceImpl implements OrderService {
         }
         cart.setTotal(total);
         cartRepository.save(cart);
+    }
+
+    @Override
+    @Transactional
+    public void removeAllItemsFromCart(Cart cart) {
+        for (CartItem cartItem : cart.getCartItems()) {
+            cartItemRepository.delete(cartItem);
+        }
+        cart.getCartItems().clear();
+        cartRepository.saveAndFlush(cart);
+    }
+
+    @Override
+    public int getTotalItemsInCart(String username) {
+        Cart cart = cartRepository.findByUserUsername(username);
+        if (cart != null && cart.getCartItems() != null) {
+            return cart.getCartItems().size();
+        }
+        return 0;
     }
 }
