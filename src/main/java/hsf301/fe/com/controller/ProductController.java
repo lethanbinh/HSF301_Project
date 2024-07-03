@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ProductController {
@@ -14,8 +15,13 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/product-list")
-    public String product (Model model) {
-        model.addAttribute("PRODUCT_LIST", productService.findAll());
+    public String product (@RequestParam(value = "searchValue", required = false) String searchValue, Model model) {
+        if(searchValue == null) {
+            model.addAttribute("PRODUCT_LIST", productService.findAll());
+        }else{
+            model.addAttribute("searchValue", searchValue);
+            model.addAttribute("PRODUCT_LIST", productService.getAllProductCustom(searchValue));
+        }
         return "product";
     }
 

@@ -9,4 +9,5 @@ import java.util.List;
 public interface ProductService {
     Product findById (int productId);
     List<Product> findAll ();
+    List<Product> getAllProductCustom(String searchValue);
 }

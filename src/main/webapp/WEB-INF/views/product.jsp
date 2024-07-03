@@ -56,8 +56,10 @@
                     <div class="row g-4">
                         <div class="col-xl-3">
                             <div class="input-group w-100 mx-auto d-flex">
-                                <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                                <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                                <form action="/product-list" method="GET" class="w-100 d-flex">
+                                    <input type="search" class="form-control p-3 flex-grow-1" name="searchValue" placeholder="Search..." aria-describedby="search-icon-1" value="${searchValue}">
+                                    <button type="submit" id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></button>
+                                </form>
                             </div>
                         </div>
                         <div class="col-6"></div>
