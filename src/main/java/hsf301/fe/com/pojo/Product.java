@@ -32,11 +32,29 @@ public class Product {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Column(name = "status")
+    private boolean status = true;
+
     @OneToMany(mappedBy = "product")
     private List<CartItem> cartItems;
 
     @OneToMany(mappedBy = "product")
     private List<OrderItem> orderItems;
+
+    public Product(String name, String description, double price, String category, int stock, String imageUrl) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+        this.stock = stock;
+        this.imageUrl = imageUrl;
+    }
+
+
+    public Product() {
+
+    }
+
 
     // Getters and setters
 }

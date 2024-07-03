@@ -14,7 +14,8 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+          rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
@@ -32,7 +33,7 @@
 </head>
 
 <body>
-<jsp:include page="./common/header.jsp" />
+<jsp:include page="./common/header.jsp"/>
 
 <!-- Product Management Start -->
 <div class="container-fluid py-5">
@@ -41,7 +42,8 @@
 
         <!-- Search Bar Start -->
         <div class="mb-4">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search products by name..." onkeyup="filterProducts()">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search products by name..."
+                   onkeyup="filterProducts()">
         </div>
         <!-- Search Bar End -->
 
@@ -55,29 +57,34 @@
         <div class="table-responsive">
             <table class="table table-bordered" id="productsTable">
                 <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Category</th>
-                        <th>Actions</th>
-                    </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Stock</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <!-- Sample Product Row Start -->
+                <c:forEach var="product" items="${products}">
                     <tr>
-                        <td><img src="img/product-1.jpg" alt="Product Image" class="img-fluid" style="width: 50px; height: 50px;"></td>
-                        <td>Product Name 1</td>
-                        <td>$123.00</td>
-                        <td>Category 1</td>
+                        <td><c:out value="${product.id}"/></td>
+                        <td><img src="${product.imageUrl}" alt="Product Image" class="img-fluid"
+                                 style="width: 50px; height: 50px;"></td>
+                        <td><c:out value="${product.name}"/></td>
+                        <td><c:out value="${product.price}"/></td>
+                        <td><c:out value="${product.category}"/></td>
+                        <td><c:out value="${product.stock}"/></td>
+                        <td><c:out value="${product.description}"/></td>
                         <td>
                             <button class="btn btn-sm btn-warning" onclick="showEditProductModal(this)">Edit</button>
                             <button class="btn btn-sm btn-danger" onclick="showDeleteProductModal(this)">Delete</button>
                         </td>
                     </tr>
-                    <!-- Sample Product Row End -->
-
-                    <!-- Add more product rows as needed -->
+                </c:forEach>
                 </tbody>
             </table>
         </div>
@@ -96,9 +103,15 @@
             </div>
             <div class="modal-body">
                 <form id="productForm">
+                    <input type="hidden" id="productId" name="productId"> <!-- Field hidden để lưu ID sản phẩm -->
                     <div class="mb-3">
                         <label for="productName" class="form-label">Product Name</label>
                         <input type="text" class="form-control" id="productName" name="productName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productDescription" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="productDescription" name="productDescription"
+                               required>
                     </div>
                     <div class="mb-3">
                         <label for="productPrice" class="form-label">Price</label>
@@ -106,7 +119,22 @@
                     </div>
                     <div class="mb-3">
                         <label for="productCategory" class="form-label">Category</label>
-                        <input type="text" class="form-control" id="productCategory" name="productCategory" required>
+                        <select class="form-select" id="productCategory" name="productCategory">
+                            <option value="" disabled selected>-- Select Category --</option>
+                            <option value="Infant Formula">Infant Formula</option>
+                            <option value="Baby Milk">Baby Milk</option>
+                            <option value="Breast Milk Substitutes">Breast Milk Substitutes</option>
+                            <option value="Specialty Baby Formulas">Specialty Baby Formulas</option>
+                            <option value="Maternal Milk">Maternal Milk</option>
+                            <option value="Milk-Based Drinks for Kids">Milk-Based Drinks for Kids</option>
+                            <option value="Nutritional Supplements">Nutritional Supplements</option>
+                            <option value="Dairy-Free Alternatives">Dairy-Free Alternatives</option>
+                        </select>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="productStock" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="productStock" name="productStock" required>
                     </div>
                     <div class="mb-3">
                         <label for="productImage" class="form-label">Image URL</label>
@@ -124,7 +152,8 @@
 <!-- Add/Edit Product Modal End -->
 
 <!-- Delete Product Modal Start -->
-<div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -175,58 +204,77 @@
     }
 
     function showEditProductModal(button) {
-        selectedRow = button.parentElement.parentElement;
-        document.getElementById("productName").value = selectedRow.cells[1].innerText;
-        document.getElementById("productPrice").value = selectedRow.cells[2].innerText.replace('$', '');
-        document.getElementById("productCategory").value = selectedRow.cells[3].innerText;
-        document.getElementById("productImage").value = selectedRow.cells[0].children[0].src;
+        // Lấy dòng chứa nút Edit được nhấn
+        let selectedRow = button.closest('tr');
+
+        // Lấy giá trị từ các ô trong dòng đã chọn
+        // const id = selectedRow.cells[0].innerText.trim(); // ID sản phẩm
+        // const imageUrl = selectedRow.cells[1].querySelector('img').src; // Ảnh sản phẩm
+        // const name = selectedRow.cells[2].innerText.trim(); // Tên sản phẩm
+        // const price = selectedRow.cells[3].innerText.trim(); // Giá sản phẩm
+        // const category = selectedRow.cells[4].innerText.trim(); // Danh mục sản phẩm
+        // const stock = selectedRow.cells[5].innerText.trim(); // Số lượng tồn kho
+        // const description = selectedRow.cells[6].innerText.trim(); // Mô tả sản phẩm
+
+        const id = selectedRow.cells[0].innerText.trim();
+        const name = selectedRow.cells[1].innerText
+        const description = selectedRow.cells[2].innerText.trim();
+        const price = selectedRow.cells[3].innerText.trim();
+        const category = selectedRow.cells[4].innerText.trim();
+        const stock = selectedRow.cells[5].innerText.trim();
+        const imageUrl = selectedRow.cells[6].querySelector('img').src;
+
+        // Điền các giá trị vào các trường trong modal
+        document.getElementById("productId").value = id;
+        document.getElementById("productName").value = name;
+        document.getElementById("productPrice").value = price;
+        document.getElementById("productCategory").value = category;
+        document.getElementById("productImage").value = imageUrl;
+        document.getElementById("productDescription").value = description;
+        document.getElementById("productStock").value = stock;
+
+        // Đổi tiêu đề modal để hiển thị "Edit Product"
         document.getElementById("productModalLabel").textContent = "Edit Product";
+
+        // Hiển thị modal
         const productModal = new bootstrap.Modal(document.getElementById("productModal"));
         productModal.show();
     }
 
+
     function saveProduct() {
-        const productName = document.getElementById("productName").value;
-        const productPrice = document.getElementById("productPrice").value;
-        const productCategory = document.getElementById("productCategory").value;
-        const productImage = document.getElementById("productImage").value;
+        const productId = document.getElementById("productId").value;
+        const name = document.getElementById("productName").value;
+        const price = document.getElementById("productPrice").value;
+        const category = document.getElementById("productCategory").value;
+        const imageUrl = document.getElementById("productImage").value;
+        const description = document.getElementById("productDescription").value;
+        const stock = document.getElementById("productStock").value;
 
-        if (selectedRow) {
-            // Cập nhật hàng đã chọn với các giá trị mới
-            selectedRow.cells[1].innerText = productName;
-            selectedRow.cells[2].innerText = "$" + productPrice;
-            selectedRow.cells[3].innerText = productCategory;
-            selectedRow.cells[0].querySelector("img").src = productImage;
-        } else {
-            // Tạo một hàng mới và thêm nó vào bảng
-            const table = document.getElementById("productsTable").getElementsByTagName('tbody')[0];
-            const newRow = table.insertRow();
-            const cell1 = newRow.insertCell(0);
-            const cell2 = newRow.insertCell(1);
-            const cell3 = newRow.insertCell(2);
-            const cell4 = newRow.insertCell(3);
-            const cell5 = newRow.insertCell(4);
+        const xhr = new XMLHttpRequest();
+        let url = "/add";
+        let method = "POST";
 
-            const img = document.createElement('img');
-            img.src = productImage;
-            img.alt = "Product Image";
-            img.className = "img-fluid";
-            img.style.width = "50px";
-            img.style.height = "50px";
-            cell1.appendChild(img);
-
-            cell2.innerText = productName;
-            cell3.innerText = "$" + productPrice;
-            cell4.innerText = productCategory;
-            cell5.innerHTML = `
-                <button class="btn btn-sm btn-warning" onclick="showEditProductModal(this)">Edit</button>
-                <button class="btn btn-sm btn-danger" onclick="showDeleteProductModal(this)">Delete</button>
-            `;
+        // Nếu có productId thì đây là chức năng update, không phải add mới
+        if (productId) {
+            url = `/update/${productId}`;
+            method = "PUT";
         }
 
-        // Ẩn modal sau khi lưu các thay đổi
-        const productModal = bootstrap.Modal.getInstance(document.getElementById("productModal"));
-        productModal.hide();
+        xhr.open(method, url, true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                location.reload(); // Sau khi lưu thành công, reload trang để cập nhật danh sách sản phẩm
+            } else {
+                alert("Error saving product.");
+            }
+        };
+
+        xhr.send("name=" + encodeURIComponent(name) + "&price=" + encodeURIComponent(price) +
+            "&category=" + encodeURIComponent(category) + "&imageFileName=" + encodeURIComponent(imageUrl) +
+            "&description=" + encodeURIComponent(description) + "&stock=" + encodeURIComponent(stock));
     }
 
 
@@ -243,7 +291,7 @@
     }
 </script>
 
-<jsp:include page="./common/footer.jsp" />
+<jsp:include page="./common/footer.jsp"/>
 
 <!-- JavaScript Libraries -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
