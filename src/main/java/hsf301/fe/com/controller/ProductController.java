@@ -9,10 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -32,7 +29,7 @@ public class ProductController {
 
     @GetMapping("/product-list")
     public String product (Model model) {
-        model.addAttribute("PRODUCT_LIST", productService.findAll());
+        model.addAttribute("PRODUCT_LIST", productService.getAllProducts());
         return "product";
     }
 
@@ -45,7 +42,7 @@ public class ProductController {
 
     @GetMapping("/manage-product")
     public String manageProduct (Model model) {
-        model.addAttribute("products", productService.findAll());
+        model.addAttribute("products", productService.getAllProducts());
         return "manage-product";
     }
 
@@ -57,6 +54,18 @@ public class ProductController {
                              @RequestParam("stock") int stock,
                              @RequestParam("imageFileName") String imageFileName) {
         Product product = new Product(name, description, price, category, stock, imageFileName);
+        productService.save(product);
+        return "redirect:/manage-product";
+    }
+
+    @PostMapping("/delete/{productId}")
+    public String deleteProduct(@PathVariable int productId, Model model) {
+        productService.delete(productId);
+        return "redirect:/manage-product";
+    }
+
+    @PostMapping("/edit")
+    public String editProduct(@ModelAttribute Product product) {
         productService.save(product);
         return "redirect:/manage-product";
     }

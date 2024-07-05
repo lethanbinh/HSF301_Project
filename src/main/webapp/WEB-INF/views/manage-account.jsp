@@ -1,3 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,17 +59,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Sample Account Row Start -->
+                    <c:forEach var="profile" items="${profiles}">
                         <tr>
-                            <td><img src="img/profile.jpg" alt="Profile Image" class="img-fluid rounded-circle" style="width: 50px; height: 50px;"></td>
-                            <td>John Doe</td>
-                            <td>Email@Example.com</td>
-                            <td>+0123 456 7890</td>
-                            <td>123 Street, New York, USA</td>
+                            <td><img src="${profile.avatar}" alt="Profile Image" class="img-fluid"
+                                     style="width: 50px; height: 50px;"></td>
+                            <td><c:out value="${profile.username}"/></td>
+                            <td><c:out value="${profile.email}"/></td>
+                            <td><c:out value="${profile.phone}"/></td>
+                            <td><c:out value="${profile.address}"/></td>
                         </tr>
-                        <!-- Sample Account Row End -->
-
-                        <!-- Add more account rows as needed -->
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>

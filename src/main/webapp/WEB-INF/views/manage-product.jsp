@@ -81,7 +81,9 @@
                         <td><c:out value="${product.description}"/></td>
                         <td>
                             <button class="btn btn-sm btn-warning" onclick="showEditProductModal(this)">Edit</button>
-                            <button class="btn btn-sm btn-danger" onclick="showDeleteProductModal(this)">Delete</button>
+                            <form action="/delete/${product.id}" method="post">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 </c:forEach>
@@ -93,7 +95,7 @@
 </div>
 <!-- Product Management End -->
 
-<!-- Add/Edit Product Modal Start -->
+<!-- Add Product Modal Start -->
 <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -149,7 +151,63 @@
         </div>
     </div>
 </div>
-<!-- Add/Edit Product Modal End -->
+<!-- Add Product Modal End -->
+
+<!-- Modal Add/Edit Product -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">Edit Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="productForm">
+                    <input type="hidden" id="productId" name="productId"> <!-- Field hidden để lưu ID sản phẩm -->
+                    <div class="mb-3">
+                        <label for="productName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="productName" name="productName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productDescription" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="productDescription" name="productDescription" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productPrice" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="productPrice" name="productPrice" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productCategory" class="form-label">Category</label>
+                        <select class="form-select" id="productCategory" name="productCategory">
+                            <option value="" disabled selected>-- Select Category --</option>
+                            <option value="Infant Formula">Infant Formula</option>
+                            <option value="Baby Milk">Baby Milk</option>
+                            <option value="Breast Milk Substitutes">Breast Milk Substitutes</option>
+                            <option value="Specialty Baby Formulas">Specialty Baby Formulas</option>
+                            <option value="Maternal Milk">Maternal Milk</option>
+                            <option value="Milk-Based Drinks for Kids">Milk-Based Drinks for Kids</option>
+                            <option value="Nutritional Supplements">Nutritional Supplements</option>
+                            <option value="Dairy-Free Alternatives">Dairy-Free Alternatives</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productStock" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="productStock" name="productStock" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productImage" class="form-label">Image URL</label>
+                        <input type="url" class="form-control" id="productImage" name="productImage" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="updateProduct()">Update Product</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Edit Product End -->
 
 <!-- Delete Product Modal Start -->
 <div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel"
@@ -207,14 +265,6 @@
         // Lấy dòng chứa nút Edit được nhấn
         let selectedRow = button.closest('tr');
 
-        // Lấy giá trị từ các ô trong dòng đã chọn
-        // const id = selectedRow.cells[0].innerText.trim(); // ID sản phẩm
-        // const imageUrl = selectedRow.cells[1].querySelector('img').src; // Ảnh sản phẩm
-        // const name = selectedRow.cells[2].innerText.trim(); // Tên sản phẩm
-        // const price = selectedRow.cells[3].innerText.trim(); // Giá sản phẩm
-        // const category = selectedRow.cells[4].innerText.trim(); // Danh mục sản phẩm
-        // const stock = selectedRow.cells[5].innerText.trim(); // Số lượng tồn kho
-        // const description = selectedRow.cells[6].innerText.trim(); // Mô tả sản phẩm
 
         const id = selectedRow.cells[0].innerText.trim();
         const name = selectedRow.cells[1].innerText
@@ -241,9 +291,46 @@
         productModal.show();
     }
 
+    function updateProduct() {
+        const productId = document.getElementById("productId").value;
+        const name = document.getElementById("productName").value;
+        const price = document.getElementById("productPrice").value;
+        const category = document.getElementById("productCategory").value;
+        const imageUrl = document.getElementById("productImage").value;
+        const description = document.getElementById("productDescription").value;
+        const stock = document.getElementById("productStock").value;
+
+        const xhr = new XMLHttpRequest();
+        let url = `/${productId}/update`;
+
+        xhr.open("PUT", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // Handle successful update
+                document.getElementById("productModal").modal('hide'); // Hide the modal
+                location.reload(); // Reload the page to update product list
+            } else {
+                // Handle error
+                alert("Error updating product.");
+            }
+        };
+
+        const data = JSON.stringify({
+            id: productId,
+            name: name,
+            price: price,
+            category: category,
+            imageUrl: imageUrl,
+            description: description,
+            stock: stock
+        });
+
+        xhr.send(data);
+    }
 
     function saveProduct() {
-        const productId = document.getElementById("productId").value;
         const name = document.getElementById("productName").value;
         const price = document.getElementById("productPrice").value;
         const category = document.getElementById("productCategory").value;
@@ -255,11 +342,6 @@
         let url = "/add";
         let method = "POST";
 
-        // Nếu có productId thì đây là chức năng update, không phải add mới
-        if (productId) {
-            url = `/update/${productId}`;
-            method = "PUT";
-        }
 
         xhr.open(method, url, true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -285,10 +367,26 @@
     }
 
     function deleteProduct() {
-        selectedRow.remove();
-        const deleteProductModal = bootstrap.Modal.getInstance(document.getElementById("deleteProductModal"));
-        deleteProductModal.hide();
+        const productId = selectedRow.cells[0].innerText;
+
+        fetch(`/delete/${productId}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    selectedRow.remove();
+                    const deleteProductModal = bootstrap.Modal.getInstance(document.getElementById("deleteProductModal"));
+                    deleteProductModal.hide();
+                } else {
+                    alert("Error deleting product.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Error deleting product.");
+            });
     }
+
 </script>
 
 <jsp:include page="./common/footer.jsp"/>

@@ -23,7 +23,7 @@ public class HomeController {
         User userDemo = userService.findByUsername("admin");
         HttpSession session = request.getSession();
         session.setAttribute("USER", userDemo);
-        model.addAttribute("PRODUCT_LIST", productService.findAll());
+        model.addAttribute("PRODUCT_LIST", productService.getAllProducts());
         return "index";
     }
 }
