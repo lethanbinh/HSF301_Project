@@ -1,3 +1,7 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html lang="en">
     <body>
@@ -36,7 +40,7 @@
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
                             <a href="/cart?username=${sessionScope.USER.username}" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
-                                <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                                <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">${fn:length(sessionScope.CART)}</span>
                             </a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="my-auto nav-link dropdown-toggle active">
@@ -74,5 +78,31 @@
             </div>
         </div>
         <!-- Modal Search End -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        // Check for cart total items in localStorage
+        var cartTotalItems = localStorage.getItem('cartTotalItems');
+        if (cartTotalItems) {
+            updateHeaderCartTotalItems(cartTotalItems);
+        }
+
+        // Listen for the custom event to update the header cart total items
+        window.addEventListener('cartTotalItemsUpdated', function(event) {
+            updateHeaderCartTotalItems(event.detail);
+        });
+    });
+
+    // Function to update the header cart total items
+    function updateHeaderCartTotalItems(totalItems) {
+        const cartItemCount = document.querySelector('.fa-shopping-bag').nextElementSibling;
+        if (cartItemCount) {
+            cartItemCount.textContent = totalItems;
+        }
+    }
+    </script>
+
     </body>
+
 </html>
