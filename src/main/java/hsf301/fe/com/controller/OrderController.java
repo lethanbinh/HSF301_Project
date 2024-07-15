@@ -4,6 +4,7 @@ import hsf301.fe.com.dto.CartItemDTO;
 import hsf301.fe.com.dto.CartItemMapper;
 import hsf301.fe.com.pojo.Cart;
 import hsf301.fe.com.pojo.CartItem;
+import hsf301.fe.com.pojo.User;
 import hsf301.fe.com.repository.CartItemRepository;
 import hsf301.fe.com.repository.CartRepository;
 import hsf301.fe.com.service.OrderService;
@@ -11,14 +12,14 @@ import hsf301.fe.com.service.ProductService;
 import hsf301.fe.com.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -38,6 +39,12 @@ public class OrderController {
 
     @Autowired
     private CartRepository cartRepository;
+
+    @GetMapping("/cart/total-items")
+    public ResponseEntity<Integer> getTotalCartItems(@RequestParam String username) {
+        int totalItems = orderService.getTotalItemsInCart(username);
+        return ResponseEntity.ok(totalItems);
+    }
 
     @GetMapping("/cart")
     public String cart(Model model, HttpServletRequest request) {
@@ -160,17 +167,30 @@ public class OrderController {
     }
 
     @PostMapping("/checkout/payment")
+    @Transactional
     public String payment(Model model, HttpServletRequest request) throws Exception {
         try {
             String username = request.getParameter("username");
-
-            if (userService.findByUsername(username) != null) {
-                boolean orderStatus = orderService.checkout(username);
+            User user = userService.findByUsername(username);
+            if (user != null) {
+                boolean orderStatus = orderService.createOrder(username);
                 if (orderStatus) {
                     HttpSession session = request.getSession();
-                    session.removeAttribute("CART");
-                    session.removeAttribute("CART_TOTAL");
-                    request.setAttribute("SUCCESS_MESSAGE", "Order placed successfully.");
+                    if (session != null) {
+                        // Retrieve the cart from the repository
+                        Cart cart = cartRepository.findByUserUsername(username);
+                        if (cart != null) {
+                            // Remove all cart items explicitly
+                            try {
+                                orderService.removeAllItemsFromCart(cart);
+                                request.setAttribute("SUCCESS_MESSAGE", "Order placed successfully.");
+                            } catch (Exception e) {
+                                System.err.println("Error removing cart items: " + e.getMessage());
+                                request.setAttribute("ERROR_MESSAGE", "Error removing cart items: " + e.getMessage());
+                                return "redirect:" + request.getHeader("Referer");
+                            }
+                        }
+                    }
                 } else {
                     request.setAttribute("ERROR_MESSAGE", "Cannot complete checkout.");
                 }
@@ -178,6 +198,7 @@ public class OrderController {
                 request.setAttribute("ERROR_MESSAGE", "User not found.");
             }
         } catch (Exception e) {
+            System.err.println("An error occurred during checkout: " + e.getMessage());
             request.setAttribute("ERROR_MESSAGE", "An error occurred during checkout: " + e.getMessage());
         }
         return "redirect:" + request.getHeader("Referer");
