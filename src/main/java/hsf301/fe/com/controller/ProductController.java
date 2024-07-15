@@ -1,31 +1,21 @@
 package hsf301.fe.com.controller;
 
-import hsf301.fe.com.dto.ProductDTO;
 import hsf301.fe.com.pojo.Product;
 import hsf301.fe.com.service.ProductService;
+import hsf301.fe.com.service.impl.ProductServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.List;
 
 @Controller
 public class ProductController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private ProductServiceImpl productServiceImpl;
 
     @GetMapping("/product-list")
     public String product (Model model) {
@@ -65,10 +55,31 @@ public class ProductController {
     }
 
     @PostMapping("/edit")
-    public String editProduct(@ModelAttribute Product product) {
-        productService.save(product);
+    public String editProduct(@RequestParam("editProductId") int productId,
+                              @RequestParam("editProductName") String name,
+                              @RequestParam("editProductDescription") String description,
+                              @RequestParam("editProductPrice") double price,
+                              @RequestParam("editProductCategory") String category,
+                              @RequestParam("editProductStock") int stock,
+                              @RequestParam("editProductImage") String imageFileName) throws Exception {
+        Product product = productService.findById(productId);
+
+        if (product != null) {
+            product.setName(name);
+            product.setDescription(description);
+            product.setPrice(price);
+            product.setCategory(category);
+            product.setStock(stock);
+            product.setImageUrl(imageFileName);
+
+            productService.update(productId, product);
+        }
+
         return "redirect:/manage-product";
     }
+
+
+
 
 
 }

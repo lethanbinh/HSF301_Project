@@ -72,17 +72,26 @@
                 <c:forEach var="product" items="${products}">
                     <tr>
                         <td><c:out value="${product.id}"/></td>
-                        <td><img src="${product.imageUrl}" alt="Product Image" class="img-fluid"
-                                 style="width: 50px; height: 50px;"></td>
+                        <td>
+                            <c:if test="${not empty product.imageUrl}">
+                                <img src="${product.imageUrl}" alt="Product Image" style="width: 50px; height: auto;">
+                            </c:if>
+                        </td>
                         <td><c:out value="${product.name}"/></td>
                         <td><c:out value="${product.price}"/></td>
                         <td><c:out value="${product.category}"/></td>
                         <td><c:out value="${product.stock}"/></td>
                         <td><c:out value="${product.description}"/></td>
                         <td>
-                            <button class="btn btn-sm btn-warning" onclick="showEditProductModal(this)">Edit</button>
-                            <form action="/delete/${product.id}" method="post">
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            <form method="post">
+                                <button type="button" class="btn btn-sm btn-warning"
+                                        onclick="showEditProductModal(this)">Edit
+                                </button>
+                            </form>
+                            <form id="deleteProductForm" action="" method="post">
+                                <button type="button" class="btn btn-sm btn-danger"
+                                        onclick="showDeleteModal(${product.id})">Delete
+                                </button>
                             </form>
                         </td>
                     </tr>
@@ -100,12 +109,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="productModalLabel">Add/Edit Product</h5>
+                <h5 class="modal-title" id="productModalLabel">Add Product</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="productForm">
-                    <input type="hidden" id="productId" name="productId"> <!-- Field hidden để lưu ID sản phẩm -->
+                    <input type="hidden" id="productId" name="productId">
                     <div class="mb-3">
                         <label for="productName" class="form-label">Product Name</label>
                         <input type="text" class="form-control" id="productName" name="productName" required>
@@ -153,32 +162,32 @@
 </div>
 <!-- Add Product Modal End -->
 
-<!-- Modal Add/Edit Product -->
-<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+<!-- Modal Edit Product -->
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="productModalLabel">Edit Product</h5>
+                <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="productForm">
-                    <input type="hidden" id="productId" name="productId"> <!-- Field hidden để lưu ID sản phẩm -->
+                <form id="editProductForm" method="post" action="/edit">
+                    <input type="hidden" id="editProductId" name="editProductId"> <!-- Changed to editProductId -->
                     <div class="mb-3">
-                        <label for="productName" class="form-label">Product Name</label>
-                        <input type="text" class="form-control" id="productName" name="productName" required>
+                        <label for="editProductName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="editProductName" name="editProductName" required>
                     </div>
                     <div class="mb-3">
-                        <label for="productDescription" class="form-label">Description</label>
-                        <input type="text" class="form-control" id="productDescription" name="productDescription" required>
+                        <label for="editProductDescription" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="editProductDescription" name="editProductDescription" required>
                     </div>
                     <div class="mb-3">
-                        <label for="productPrice" class="form-label">Price</label>
-                        <input type="number" class="form-control" id="productPrice" name="productPrice" required>
+                        <label for="editProductPrice" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="editProductPrice" name="editProductPrice" required>
                     </div>
                     <div class="mb-3">
-                        <label for="productCategory" class="form-label">Category</label>
-                        <select class="form-select" id="productCategory" name="productCategory">
+                        <label for="editProductCategory" class="form-label">Category</label>
+                        <select class="form-select" id="editProductCategory" name="editProductCategory" required>
                             <option value="" disabled selected>-- Select Category --</option>
                             <option value="Infant Formula">Infant Formula</option>
                             <option value="Baby Milk">Baby Milk</option>
@@ -191,18 +200,18 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="productStock" class="form-label">Stock</label>
-                        <input type="number" class="form-control" id="productStock" name="productStock" required>
+                        <label for="editProductStock" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="editProductStock" name="editProductStock" required>
                     </div>
                     <div class="mb-3">
-                        <label for="productImage" class="form-label">Image URL</label>
-                        <input type="url" class="form-control" id="productImage" name="productImage" required>
+                        <label for="editProductImage" class="form-label">Image URL</label>
+                        <input type="url" class="form-control" id="editProductImage" name="editProductImage" required>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="updateProduct()">Update Product</button>
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('editProductForm').submit()">Update Product</button>
             </div>
         </div>
     </div>
@@ -223,7 +232,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" onclick="deleteProduct()">Delete</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
             </div>
         </div>
     </div>
@@ -262,72 +271,37 @@
     }
 
     function showEditProductModal(button) {
-        // Lấy dòng chứa nút Edit được nhấn
         let selectedRow = button.closest('tr');
 
-
         const id = selectedRow.cells[0].innerText.trim();
-        const name = selectedRow.cells[1].innerText
-        const description = selectedRow.cells[2].innerText.trim();
+        const name = selectedRow.cells[2].innerText.trim();
+        const description = selectedRow.cells[6].innerText.trim();
         const price = selectedRow.cells[3].innerText.trim();
         const category = selectedRow.cells[4].innerText.trim();
         const stock = selectedRow.cells[5].innerText.trim();
-        const imageUrl = selectedRow.cells[6].querySelector('img').src;
 
-        // Điền các giá trị vào các trường trong modal
-        document.getElementById("productId").value = id;
-        document.getElementById("productName").value = name;
-        document.getElementById("productPrice").value = price;
-        document.getElementById("productCategory").value = category;
-        document.getElementById("productImage").value = imageUrl;
-        document.getElementById("productDescription").value = description;
-        document.getElementById("productStock").value = stock;
+        const imageCell = selectedRow.cells[1].querySelector('img');
+        const imageUrl = imageCell ? imageCell.src : '';
 
-        // Đổi tiêu đề modal để hiển thị "Edit Product"
-        document.getElementById("productModalLabel").textContent = "Edit Product";
+        // Set values to form fields
+        document.getElementById("editProductId").value = id;
+        document.getElementById("editProductName").value = name;
+        document.getElementById("editProductDescription").value = description;
+        document.getElementById("editProductPrice").value = price;
+        document.getElementById("editProductCategory").value = category;
+        document.getElementById("editProductStock").value = stock;
+        document.getElementById("editProductImage").value = imageUrl;
 
-        // Hiển thị modal
-        const productModal = new bootstrap.Modal(document.getElementById("productModal"));
+        // Show the modal
+        const productModal = new bootstrap.Modal(document.getElementById("editProductModal"));
         productModal.show();
     }
 
+
+
+
     function updateProduct() {
-        const productId = document.getElementById("productId").value;
-        const name = document.getElementById("productName").value;
-        const price = document.getElementById("productPrice").value;
-        const category = document.getElementById("productCategory").value;
-        const imageUrl = document.getElementById("productImage").value;
-        const description = document.getElementById("productDescription").value;
-        const stock = document.getElementById("productStock").value;
-
-        const xhr = new XMLHttpRequest();
-        let url = `/${productId}/update`;
-
-        xhr.open("PUT", url, true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                // Handle successful update
-                document.getElementById("productModal").modal('hide'); // Hide the modal
-                location.reload(); // Reload the page to update product list
-            } else {
-                // Handle error
-                alert("Error updating product.");
-            }
-        };
-
-        const data = JSON.stringify({
-            id: productId,
-            name: name,
-            price: price,
-            category: category,
-            imageUrl: imageUrl,
-            description: description,
-            stock: stock
-        });
-
-        xhr.send(data);
+        document.getElementById("productForm").submit(); // Submit the form
     }
 
     function saveProduct() {
@@ -348,7 +322,7 @@
 
         xhr.onload = function () {
             if (xhr.status === 200) {
-                location.reload(); // Sau khi lưu thành công, reload trang để cập nhật danh sách sản phẩm
+                location.reload();
             } else {
                 alert("Error saving product.");
             }
@@ -360,32 +334,17 @@
     }
 
 
-    function showDeleteProductModal(button) {
-        selectedRow = button.parentElement.parentElement;
-        const deleteProductModal = new bootstrap.Modal(document.getElementById("deleteProductModal"));
-        deleteProductModal.show();
+    function showDeleteModal(productId) {
+        const deleteForm = document.getElementById('deleteProductForm');
+        deleteForm.action = '/delete/' + productId;
+        const deleteModal = new bootstrap.Modal(document.getElementById('deleteProductModal'));
+        deleteModal.show();
     }
 
-    function deleteProduct() {
-        const productId = selectedRow.cells[0].innerText;
+    document.getElementById('confirmDeleteButton').addEventListener('click', function () {
+        document.getElementById('deleteProductForm').submit();
+    });
 
-        fetch(`/delete/${productId}`, {
-            method: 'DELETE'
-        })
-            .then(response => {
-                if (response.ok) {
-                    selectedRow.remove();
-                    const deleteProductModal = bootstrap.Modal.getInstance(document.getElementById("deleteProductModal"));
-                    deleteProductModal.hide();
-                } else {
-                    alert("Error deleting product.");
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("Error deleting product.");
-            });
-    }
 
 </script>
 

@@ -29,7 +29,7 @@ public class Product {
     @Column(name = "stock")
     private int stock;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
 
     @Column(name = "status")

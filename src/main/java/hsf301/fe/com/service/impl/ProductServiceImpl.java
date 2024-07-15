@@ -25,6 +25,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product update(int productID, Product request) throws Exception {
+        Product product = productRepository.findById(productID);
+        if (product == null) {
+            throw new Exception("PRODUCT NOT FOUND");
+        }
+        product.setName(request.getName());
+        product.setName(request.getName());
+        product.setImageUrl(request.getImageUrl());
+        product.setPrice(request.getPrice());
+        product.setCategory(request.getCategory());
+        product.setDescription(request.getDescription());
+        return productRepository.save(product);
+    }
+
+    @Override
     public void delete(int id) {
         Product product = productRepository.findById(id);
         product.setStatus(false);
@@ -35,4 +50,5 @@ public class ProductServiceImpl implements ProductService {
     public Product save(Product product) {
         return productRepository.save(product);
     }
+
 }

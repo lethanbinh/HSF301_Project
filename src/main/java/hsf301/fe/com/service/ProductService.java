@@ -15,4 +15,6 @@ public interface ProductService {
     Product save(Product product);
 
     void delete(int id);
+
+    Product update(int productID, Product product) throws Exception;
 }
