@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,12 +23,16 @@
                     <h2 class="text-center mb-4">Register</h2>
                     <form action="register" method="post">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email address</label>
+                            <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone number</label>
+                            <input type="text" class="form-control" id="phone" name="phone" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
@@ -39,6 +44,11 @@
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Register</button>
                     </form>
+                    <c:if test="${not empty notMatch}">
+                        <div class="alert alert-danger mt-3" role="alert">
+                                ${notMatch}
+                        </div>
+                    </c:if>
                     <p class="mt-3 text-center">Already have an account? <a href="/login">Login here</a></p>
                 </div>
             </div>

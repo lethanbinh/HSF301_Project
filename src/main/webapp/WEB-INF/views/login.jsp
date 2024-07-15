@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,6 +33,11 @@
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Login</button>
                     </form>
+                    <c:if test="${not empty loginError}">
+                        <div class="alert alert-danger mt-3" role="alert">
+                                ${loginError}
+                        </div>
+                    </c:if>
                     <p class="mt-3 text-center">Don't have an account? <a href="/register">Register here</a></p>
                 </div>
             </div>
