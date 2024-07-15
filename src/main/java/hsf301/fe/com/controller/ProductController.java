@@ -1,12 +1,17 @@
 package hsf301.fe.com.controller;
 
+import hsf301.fe.com.dto.ProductSearchRequestDTO;
 import hsf301.fe.com.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 public class ProductController {
@@ -14,25 +19,28 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/product-list")
-    public String product (@RequestParam(value = "searchValue", required = false) String searchValue, Model model) {
-        if(searchValue == null) {
-            model.addAttribute("PRODUCT_LIST", productService.findAll());
+    @GetMapping(value="/product-list")
+    public ModelAndView productList(@ModelAttribute("productSearch") ProductSearchRequestDTO productSearch) {
+        ModelAndView mav = new ModelAndView("product");
+        System.out.println(productSearch.getSortCriteria());
+        System.out.println(productSearch.getProductName());
+        if(productSearch.getProductName() == null) {
+            mav.addObject("PRODUCT_LIST", productService.findAll());
         }else{
-            model.addAttribute("searchValue", searchValue);
-            model.addAttribute("PRODUCT_LIST", productService.getAllProductCustom(searchValue));
+            mav.addObject("PRODUCT_LIST", productService.getAllProductCustom(productSearch.getProductName()));
+
         }
-        return "product";
+        return mav;
     }
 
-    @GetMapping("/product-detail")
+    @GetMapping(value="/product-detail")
     public String productDetail (Model model, HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
         model.addAttribute("PRODUCT", productService.findById(id));
         return "product-detail";
     }
 
-    @GetMapping("/manage-product")
+    @GetMapping(value="/manage-product")
     public String manageProduct () {
         return "manage-product";
     }

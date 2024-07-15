@@ -60,16 +60,19 @@
                         <th>Name</th>
                         <th>Price</th>
                         <th>Category</th>
+                        <th>Stock</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Sample Product Row Start -->
                     <tr>
+
                         <td><img src="img/product-1.jpg" alt="Product Image" class="img-fluid" style="width: 50px; height: 50px;"></td>
                         <td>Product Name 1</td>
                         <td>$123.00</td>
-                        <td>Category 1</td>
+                        <td>Category </td>
+                        <td>100</td>
                         <td>
                             <button class="btn btn-sm btn-warning" onclick="showEditProductModal(this)">Edit</button>
                             <button class="btn btn-sm btn-danger" onclick="showDeleteProductModal(this)">Delete</button>
