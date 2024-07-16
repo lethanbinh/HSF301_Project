@@ -50,9 +50,14 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
         StringBuilder where = new StringBuilder(" WHERE 1=1 ");
         StringBuilder groupBy = new StringBuilder(" GROUP BY products.id ");
         StringBuilder orderBy = new StringBuilder("");
+
+        // Kiểm tra trạng thái sản phẩm là true
+        where.append(" AND products.status = true ");
+
         if( productSearchRequestDTO.getSort() != null && productSearchRequestDTO.getSort().equals("Popularity")) {
             orderBy.append(" ORDER BY SUM(order_items.quantity) DESC ");
         }
+
         //where conditions
         queryJoin(sql, productSearchRequestDTO);
         queryWhere(where, productSearchRequestDTO);
