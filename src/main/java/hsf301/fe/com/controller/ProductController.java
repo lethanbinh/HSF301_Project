@@ -36,6 +36,7 @@ public class ProductController {
         return "manage-product";
     }
 
+    //Start CRUD Product
     @PostMapping("/add")
     public String addProduct(@RequestParam("name") String name,
                              @RequestParam("description") String description,
@@ -78,6 +79,7 @@ public class ProductController {
         return "redirect:/manage-product";
     }
 
+    //End CRUD Product
 
 
 
