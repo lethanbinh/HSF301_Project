@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <head>
     <meta charset="utf-8">
     <title>MilkHaven - Milk for mothers and babies</title>
@@ -37,9 +37,9 @@
             <h4 class="text-primary mb-4">Manage Orders</h4>
 
             <!-- Search Bar Start -->
-            <div class="mb-4">
-                <input type="text" id="searchInput" class="form-control" placeholder="Search orders by customer name..." onkeyup="filterOrders()">
-            </div>
+<%--            <div class="mb-4">--%>
+<%--                <input type="text" id="searchInput" class="form-control" placeholder="Search orders by customer name..." onkeyup="filterOrders()">--%>
+<%--            </div>--%>
             <!-- Search Bar End -->
 
             <!-- Orders Table Start -->
@@ -57,6 +57,25 @@
                     </thead>
                     <tbody>
                         <!-- Order rows will be dynamically added here -->
+                        <c:forEach var="item" items="${listUserOrder}">
+                            <tr>
+                                <th scope="row">${item.orderId}</th>
+                                <td>${item.name}</td>
+                                <td>${item.orderDate}</td>
+                                <td>${item.totalAmount}</td>
+                                <td>${item.status}</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-primary view-details-btn"
+                                            data-order-id="${item.orderId}"
+                                            data-name="${item.name}"
+                                            data-order-date="${item.orderDate}"
+                                            data-total-amount="${item.totalAmount}"
+                                            data-status="${item.status}"
+                                            data-items="${item.listItemDetail}"
+                                    data-toggle="modal" data-target="#orderDetailsModal">View Details</button>
+                                </td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -75,7 +94,12 @@
                 </div>
                 <div class="modal-body">
                     <div id="orderItemsContainer">
-                        <!-- Order items will be dynamically added here -->
+                        <p><strong>Order ID:</strong> <span id="modalOrderId"></span></p>
+                        <p><strong>Name:</strong> <span id="modalName"></span></p>
+                        <p><strong>Order Date:</strong> <span id="modalOrderDate"></span></p>
+                        <p><strong>Total Amount:</strong> <span id="modalTotalAmount"></span></p>
+                        <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+                        <div id="modalItemsList"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -99,125 +123,198 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 
-    <script>
-        let ordersData = [
-            {
-                orderId: 1,
-                customerName: "John Doe",
-                orderDate: "2024-06-30",
-                totalAmount: 456.00,
-                status: "Pending",
-                items: [
-                    { productName: "Product 1", quantity: 2, price: 123.00 },
-                    { productName: "Product 2", quantity: 1, price: 210.00 }
-                ]
-            },
-            {
-                orderId: 2,
-                customerName: "Jane Smith",
-                orderDate: "2024-06-29",
-                totalAmount: 300.00,
-                status: "Shipped",
-                items: [
-                    { productName: "Product 3", quantity: 3, price: 100.00 }
-                ]
-            },
-            // Add more sample orders as needed
-        ];
+    <script type="text/javascript">
 
-        function filterOrders() {
-            const input = document.getElementById("searchInput");
-            const filter = input.value.toUpperCase();
-            const table = document.getElementById("ordersTable");
-            const tr = table.getElementsByTagName("tr");
-
-            for (let i = 1; i < tr.length; i++) {
-                tr[i].style.display = "none";
-                const td = tr[i].getElementsByTagName("td");
-                if (td[1]) {
-                    const txtValue = td[1].textContent || td[1].innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    }
-                }
+        $('.view-details-btn').on('click', function() {
+            var orderId = $(this).data('order-id');
+            var name = $(this).data('name');
+            var orderDate = $(this).data('order-date');
+            var totalAmount = $(this).data('total-amount');
+            var status = $(this).data('status');
+            var itemsJson = $(this).data('items');
+            console.log(orderId);
+            console.log(name);
+            console.log(orderDate);
+            console.log(totalAmount);
+            console.log(status);
+            console.log(itemsJson);
+            if (!itemsJson) {
+                console.error('Items data is not available.');
+                return;
             }
-        }
 
-        function showOrderDetails(button) {
-            const selectedRow = button.parentElement.parentElement;
-            const orderId = selectedRow.cells[0].innerText;
-            const order = ordersData.find(o => o.orderId == orderId);
-            const orderItemsContainer = document.getElementById("orderItemsContainer");
-            orderItemsContainer.innerHTML = '';
+            // Parse the JSON string into an array
+            console.log(itemsJson.substring(0, itemsJson.length - 1)+",]")
+            itemsJson = itemsJson.substring(0, itemsJson.length - 1)+", ]"
 
-            const orderIdElement = document.createElement('p');
-            orderIdElement.innerHTML = '<strong>Order ID:</strong> ' + order.orderId;
-            orderItemsContainer.appendChild(orderIdElement);
+            var items;
+            try {
+                // items = JSON.parse(itemsJson);
+                // Remove the surrounding square brackets
+                const cleanedString = itemsJson.slice(1, -1);
+                console.log(cleanedString)
 
-            const customerNameElement = document.createElement('p');
-            customerNameElement.innerHTML = '<strong>Customer Name:</strong> ' + order.customerName;
-            orderItemsContainer.appendChild(customerNameElement);
+// Split based on 'ItemDetailResponseDTO(' and trim each resulting string
 
-            const orderDateElement = document.createElement('p');
-            orderDateElement.innerHTML = '<strong>Order Date:</strong> ' + order.orderDate;
-            orderItemsContainer.appendChild(orderDateElement);
+                items = cleanedString.split(/ItemDetailResponseDTO\(/).filter(Boolean).map(item => {
+                    return item.substring(0, item.length - 3);
+                });
+                // Map itemStrings to objects
+                items = items.map(itemString => {
+                    const parts = itemString.split(', ');
+                    const item = {};
+                    parts.forEach(part => {
+                        const [key, value] = part.split('=');
+                        item[key] = value;
+                    });
+                    return item;
+                });
+                console.log(items)
 
-            const totalAmountElement = document.createElement('p');
-            totalAmountElement.innerHTML = '<strong>Total Amount:</strong> $' + order.totalAmount.toFixed(2);
-            orderItemsContainer.appendChild(totalAmountElement);
 
-            const statusElement = document.createElement('p');
-            statusElement.innerHTML = '<strong>Status:</strong> ' + order.status;
-            orderItemsContainer.appendChild(statusElement);
+            } catch (e) {
+                console.error('Error parsing items JSON:', e);
+                return;
+            }
 
-            const itemsHeader = document.createElement('h5');
-            itemsHeader.textContent = 'Items';
-            orderItemsContainer.appendChild(itemsHeader);
+            // Populate the modal fields
+            $('#modalOrderId').text(orderId);
+            $('#modalName').text(name);
+            $('#modalOrderDate').text(orderDate);
+            $('#modalTotalAmount').text(totalAmount);
+            $('#modalStatus').text(status);
 
-            const itemsList = document.createElement('ul');
-            order.items.forEach(function(item) {
-                const itemElement = document.createElement('li');
-                itemElement.textContent = item.productName + ' - ' + item.quantity + ' x $' + item.price;
-                itemsList.appendChild(itemElement);
+            // Generate and populate the items list
+            var itemsListHtml = '<p><strong>Items:</strong></p>';
+            itemsListHtml += '<ul>';
+            items.forEach(function(item) {
+                itemsListHtml += '<li>' + item.productName + ' - ' + item.quantity + ' x $' + item.price + '</li>';
             });
-            orderItemsContainer.appendChild(itemsList);
+            itemsListHtml += '</ul>';
 
+            $('#modalItemsList').html(itemsListHtml);
             const orderDetailsModal = new bootstrap.Modal(document.getElementById("orderDetailsModal"));
             orderDetailsModal.show();
-        }
+        });
 
-        // Function to dynamically load the orders data into the table
-        function loadOrders() {
-            const table = document.getElementById("ordersTable").getElementsByTagName('tbody')[0];
-            ordersData.forEach(function(order) {
-                const newRow = table.insertRow();
+        // let ordersData = [
+        //     {
+        //         orderId: 1,
+        //         customerName: "John Doe",
+        //         orderDate: "2024-06-30",
+        //         totalAmount: 456.00,
+        //         status: "Pending",
+        //         items: [
+        //             { productName: "Product 1", quantity: 2, price: 123.00 },
+        //             { productName: "Product 2", quantity: 1, price: 210.00 }
+        //         ]
+        //     },
+        //     {
+        //         orderId: 2,
+        //         customerName: "Jane Smith",
+        //         orderDate: "2024-06-29",
+        //         totalAmount: 300.00,
+        //         status: "Shipped",
+        //         items: [
+        //             { productName: "Product 3", quantity: 3, price: 100.00 }
+        //         ]
+        //     },
+        //     // Add more sample orders as needed
+        // ];
 
-                const orderIdCell = newRow.insertCell(0);
-                orderIdCell.textContent = order.orderId;
-
-                const customerNameCell = newRow.insertCell(1);
-                customerNameCell.textContent = order.customerName;
-
-                const orderDateCell = newRow.insertCell(2);
-                orderDateCell.textContent = order.orderDate;
-
-                const totalAmountCell = newRow.insertCell(3);
-                totalAmountCell.textContent = '$' + order.totalAmount.toFixed(2);
-
-                const statusCell = newRow.insertCell(4);
-                statusCell.textContent = order.status;
-
-                const actionsCell = newRow.insertCell(5);
-                const viewButton = document.createElement('button');
-                viewButton.textContent = 'View Details';
-                viewButton.className = 'btn btn-sm btn-primary';
-                viewButton.onclick = function() { showOrderDetails(this); };
-                actionsCell.appendChild(viewButton);
-            });
-        }
+        // function filterOrders() {
+        //     const input = document.getElementById("searchInput");
+        //     const filter = input.value.toUpperCase();
+        //     const table = document.getElementById("ordersTable");
+        //     const tr = table.getElementsByTagName("tr");
+        //
+        //     for (let i = 1; i < tr.length; i++) {
+        //         tr[i].style.display = "none";
+        //         const td = tr[i].getElementsByTagName("td");
+        //         if (td[1]) {
+        //             const txtValue = td[1].textContent || td[1].innerText;
+        //             if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        //                 tr[i].style.display = "";
+        //             }
+        //         }
+        //     }
+        // }
+        //
+        // function showOrderDetails(button) {
+        //     const selectedRow = button.parentElement.parentElement;
+        //     const orderId = selectedRow.cells[0].innerText;
+        //     const order = ordersData.find(o => o.orderId == orderId);
+        //     const orderItemsContainer = document.getElementById("orderItemsContainer");
+        //     orderItemsContainer.innerHTML = '';
+        //
+        //     const orderIdElement = document.createElement('p');
+        //     orderIdElement.innerHTML = '<strong>Order ID:</strong> ' + order.orderId;
+        //     orderItemsContainer.appendChild(orderIdElement);
+        //
+        //     const customerNameElement = document.createElement('p');
+        //     customerNameElement.innerHTML = '<strong>Customer Name:</strong> ' + order.customerName;
+        //     orderItemsContainer.appendChild(customerNameElement);
+        //
+        //     const orderDateElement = document.createElement('p');
+        //     orderDateElement.innerHTML = '<strong>Order Date:</strong> ' + order.orderDate;
+        //     orderItemsContainer.appendChild(orderDateElement);
+        //
+        //     const totalAmountElement = document.createElement('p');
+        //     totalAmountElement.innerHTML = '<strong>Total Amount:</strong> $' + order.totalAmount.toFixed(2);
+        //     orderItemsContainer.appendChild(totalAmountElement);
+        //
+        //     const statusElement = document.createElement('p');
+        //     statusElement.innerHTML = '<strong>Status:</strong> ' + order.status;
+        //     orderItemsContainer.appendChild(statusElement);
+        //
+        //     const itemsHeader = document.createElement('h5');
+        //     itemsHeader.textContent = 'Items';
+        //     orderItemsContainer.appendChild(itemsHeader);
+        //
+        //     const itemsList = document.createElement('ul');
+        //     order.items.forEach(function(item) {
+        //         const itemElement = document.createElement('li');
+        //         itemElement.textContent = item.productName + ' - ' + item.quantity + ' x $' + item.price;
+        //         itemsList.appendChild(itemElement);
+        //     });
+        //     orderItemsContainer.appendChild(itemsList);
+        //
+        //     const orderDetailsModal = new bootstrap.Modal(document.getElementById("orderDetailsModal"));
+        //     orderDetailsModal.show();
+        // }
+        //
+        // // Function to dynamically load the orders data into the table
+        // function loadOrders() {
+        //     const table = document.getElementById("ordersTable").getElementsByTagName('tbody')[0];
+        //     ordersData.forEach(function(order) {
+        //         const newRow = table.insertRow();
+        //
+        //         const orderIdCell = newRow.insertCell(0);
+        //         orderIdCell.textContent = order.orderId;
+        //
+        //         const customerNameCell = newRow.insertCell(1);
+        //         customerNameCell.textContent = order.customerName;
+        //
+        //         const orderDateCell = newRow.insertCell(2);
+        //         orderDateCell.textContent = order.orderDate;
+        //
+        //         const totalAmountCell = newRow.insertCell(3);
+        //         totalAmountCell.textContent = '$' + order.totalAmount.toFixed(2);
+        //
+        //         const statusCell = newRow.insertCell(4);
+        //         statusCell.textContent = order.status;
+        //
+        //         const actionsCell = newRow.insertCell(5);
+        //         const viewButton = document.createElement('button');
+        //         viewButton.textContent = 'View Details';
+        //         viewButton.className = 'btn btn-sm btn-primary';
+        //         viewButton.onclick = function() { showOrderDetails(this); };
+        //         actionsCell.appendChild(viewButton);
+        //     });
+        // }
 
         // Load orders data when the page loads
-        document.addEventListener("DOMContentLoaded", loadOrders);
+        // document.addEventListener("DOMContentLoaded", loadOrders);
     </script>
 
 </body>

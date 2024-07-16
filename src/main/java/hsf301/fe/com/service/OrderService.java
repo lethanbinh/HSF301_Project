@@ -1,7 +1,11 @@
 package hsf301.fe.com.service;
 
-import org.springframework.stereotype.Service;
+import hsf301.fe.com.pojo.User;
+import hsf301.fe.com.response.UserOrderResponseDTO;
 
-@Service
+import java.util.List;
+
+
 public interface OrderService {
+    List<UserOrderResponseDTO> getUserOrder(User user);
 }

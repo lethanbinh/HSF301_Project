@@ -23,10 +23,9 @@ public class AccountController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute UserDTO userDTO, HttpServletRequest request, Model model){
+    public String login(@ModelAttribute UserDTO userDTO, HttpSession session, Model model){
         // đưa biến user vô session
         User user = userService.findByUsernameAndPassword(userDTO);
-        HttpSession session = request.getSession();
         if (user != null){
             session.setAttribute("USER", user);
             return "product";
@@ -38,7 +37,6 @@ public class AccountController {
 
     @PostMapping("/register")
     public String register(@ModelAttribute UserRegisterDTO userRegisterDTO, Model model){
-        // đưa biến user vô session
         String result = userService.registerUser(userRegisterDTO);
         if (result == null){
           model.addAttribute("notMatch", "Password doesn't match with confirm password");
