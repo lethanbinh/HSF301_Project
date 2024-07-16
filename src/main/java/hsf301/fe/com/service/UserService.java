@@ -1,13 +1,13 @@
 package hsf301.fe.com.service;
 
 import hsf301.fe.com.pojo.User;
+import hsf301.fe.com.request.UserDTO;
+import hsf301.fe.com.request.UserRegisterDTO;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public interface UserService {
     User findByUsername (String username);
-
-    List<User> findAll();
+    User findByUsernameAndPassword(UserDTO userDTO);
+    String registerUser(UserRegisterDTO userRegisterDTO);
 }
