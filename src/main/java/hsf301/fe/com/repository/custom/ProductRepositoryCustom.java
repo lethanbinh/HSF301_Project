@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ProductRepositoryCustom {
+    //Find all customer method
     List<Product> findAllCustom(ProductSearchRequestDTO productSearchRequestDTO);
 }

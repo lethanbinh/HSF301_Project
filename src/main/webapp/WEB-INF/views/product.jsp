@@ -47,7 +47,7 @@
     </ol>
 </div>
 <!-- Single Page Header End -->
-
+        <!--Search product -->
 <!-- Fruits Shop Start-->
 <div class="container-fluid fruite py-5">
     <div class="container py-5">

@@ -22,7 +22,7 @@ public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
-
+    //product list
     @GetMapping("/product-list")
     public ModelAndView product (@ModelAttribute("productSearch") ProductSearchRequestDTO productSearchRequestDTO) {
         ModelAndView mav = new ModelAndView("product");
