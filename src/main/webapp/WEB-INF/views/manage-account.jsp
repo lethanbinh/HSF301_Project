@@ -76,16 +76,13 @@
                             <td>${account.phone}</td>
                             <td>${account.address}</td>
                             <td>${account.status ? 'Active' : 'Inactive'}</td>
-                            <td class="d-flex">
+                            <td>
                                 <button class="btn btn-sm btn-warning" onclick="showEditAccountModal(this, ${account.id})">Edit</button>
-                                <button class="btn btn-sm btn-danger" onclick="showDeleteAccountModal(this,  ${account.id})">Delete</button>
                             </td>
                         </tr>
                     </c:forEach>
                 </c:if>
                 <!-- Sample Account Row End -->
-
-                <!-- Add more account rows as needed -->
                 </tbody>
             </table>
         </div>
@@ -102,8 +99,8 @@
                 <h5 class="modal-title" id="accountModalLabel">Add/Edit Account</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form id="accountForm">
+            <form id="accountForm">
+                <div class="modal-body">
                     <input type="hidden" id="accountId" name="id" value="">
                     <div class="mb-3">
                         <label for="accountName" class="form-label">User Name</label>
@@ -123,7 +120,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="accountProfileImage" class="form-label">Profile Image URL</label>
-                        <input type="url" class="form-control" id="accountProfileImage" name="avatar" required>
+                        <input type="text" class="form-control" id="accountProfileImage" name="avatar" required>
                     </div>
                     <div class="mb-3">
                         <label for="accountStatus" class="form-label">Status</label>
@@ -136,38 +133,16 @@
                         <label for="accountPassword" class="form-label">Password</label>
                         <input type="password" class="form-control" id="accountPassword" name="password" required>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="saveAccount()">Save changes</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" onclick="saveAccount()">Save changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 <!-- Add/Edit Account Modal End -->
-
-<!-- Delete Account Modal Start -->
-<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteAccountModalLabel">Delete Account</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this account?
-                <input type="hidden" id="accountDeleteId">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" onclick="deleteAccount()">Delete</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Delete Account Modal End -->
-
 <script>
     function showAddAccountModal() {
         document.getElementById("accountForm").reset();
@@ -188,20 +163,13 @@
         document.getElementById("accountAddress").value = selectedRow.cells[4].innerText;
         document.getElementById("accountProfileImage").value = selectedRow.cells[0].children[0].src;
         var status = selectedRow.cells[5].innerText.trim();
-        document.getElementById("accountStatus").value = status === 'Active' ? 'Active' : 'Inactive'; // Ensure proper selection based on displayed text
+        document.getElementById("accountStatus").value = status === 'Active' ? 'Active' : 'Inactive';
         document.getElementById("accountModalLabel").textContent = "Edit Account";
-        document.getElementById("passwordField").style.display = 'none'; // Hide password field in edit mode
+        document.getElementById("passwordField").style.display = 'none';
         const accountModal = new bootstrap.Modal(document.getElementById("accountModal"));
         accountModal.show();
     }
 
-
-    function showDeleteAccountModal(button, accountId) {
-        selectedRow = button.parentElement.parentElement;
-        const deleteAccountModal = new bootstrap.Modal(document.getElementById("deleteAccountModal"));
-        document.getElementById("accountDeleteId").value = accountId;
-        deleteAccountModal.show();
-    }
 
     function filterAccounts() {
         var input, filter, table, tr, td, i, j, txtValue;
@@ -235,7 +203,7 @@
             password: document.getElementById('accountPassword').value,
             phone: document.getElementById('accountPhone').value,
             role: 'USER',
-            username: document.getElementById('accountName').value
+            userName: document.getElementById('accountName').value
         };
 
         console.log('Data to be sent:', data);
@@ -254,11 +222,6 @@
                 console.error('Error saving account:', error);
             }
         });
-    }
-
-    function deleteAccount() {
-        // Implement delete account logic here
-        alert('Delete account logic not implemented');
     }
 </script>
 

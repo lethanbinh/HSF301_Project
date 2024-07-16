@@ -1,10 +1,6 @@
 package hsf301.fe.com.controller;
 
-import hsf301.fe.com.converter.AccountConverter;
-import hsf301.fe.com.converter.ProductConverter;
 import hsf301.fe.com.dto.AccountEditDTO;
-import hsf301.fe.com.dto.ProductEditDTO;
-import hsf301.fe.com.pojo.Product;
 import hsf301.fe.com.pojo.User;
 import hsf301.fe.com.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,17 +46,26 @@ public class AccountController {
     }
     @PostMapping("/manage-account")
     public void addOrEditAccount (@RequestBody AccountEditDTO accountEditDTO) {
-        userRepository.save(AccountConverter.toUser(accountEditDTO));
+        User user = new User();
+        if(accountEditDTO.getId() != null){
+            int id = Math.toIntExact(accountEditDTO.getId());
+            user.setId(id);
+            User oldUser = userRepository.findById(id);
+            user.setPassword(oldUser.getPassword());
+        }else{
+            user.setPassword(accountEditDTO.getPassword());
+        }
+        user.setAddress(accountEditDTO.getAddress());
+        user.setEmail(accountEditDTO.getEmail());
+        user.setAvatar(accountEditDTO.getAvatar());
+        user.setPhone(accountEditDTO.getPhone());
+        user.setUsername(accountEditDTO.getUserName());
+        user.setRole("USER");
+        if(accountEditDTO.getStatus().equals("Active")){
+            user.setStatus(true);
+        }else{
+            user.setStatus(false);
+        }
+        userRepository.save(user);
     }
-//    @ResponseBody
-//    @DeleteMapping("/manage-product")
-//    public ResponseEntity<String> deleteProduct (@RequestBody ProductEditDTO productEditDTO) {
-//        int productId = Math.toIntExact(productEditDTO.getId());
-//        Product product = productRepository.findById(productId);
-//        if(!product.getOrderItems().isEmpty()){
-//            return ResponseEntity.ok("Cannot delete this product!");
-//        }
-//        productRepository.deleteById(productId);
-//        return ResponseEntity.ok("Delete product successfully");
-//    }
 }
