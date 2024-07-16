@@ -14,8 +14,6 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
-    @Autowired
-    private ProductServiceImpl productServiceImpl;
 
     @GetMapping("/product-list")
     public String product (Model model) {
