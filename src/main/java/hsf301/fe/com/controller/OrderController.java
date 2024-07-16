@@ -2,6 +2,7 @@ package hsf301.fe.com.controller;
 
 import hsf301.fe.com.dto.CartItemDTO;
 import hsf301.fe.com.dto.CartItemMapper;
+import hsf301.fe.com.dto.UserOrderResponseDTO;
 import hsf301.fe.com.pojo.Cart;
 import hsf301.fe.com.pojo.CartItem;
 import hsf301.fe.com.pojo.User;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,8 +77,13 @@ public class OrderController {
     }
 
     @GetMapping("/manage-order")
-    public String order() {
-        return "manage-order";
+    public ModelAndView order (HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+        User user = (User) session.getAttribute("USER");
+        List<UserOrderResponseDTO> list = orderService.getUserOrder(user);
+        mv.addObject("listUserOrder", list);
+        mv.setViewName("manage-order");
+        return mv;
     }
 
     @PostMapping("/cart/add-item")
