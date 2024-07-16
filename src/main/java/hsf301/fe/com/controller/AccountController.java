@@ -33,10 +33,10 @@ public class AccountController {
         HttpSession session = request.getSession();
         if (user != null){
             session.setAttribute("USER", user);
-            return "product";
+            return "redirect:/";
         } else {
             model.addAttribute("loginError", "Invalid username or password. Please try again.");
-            return "login";
+            return "redirect:/login";
         }
     }
 
