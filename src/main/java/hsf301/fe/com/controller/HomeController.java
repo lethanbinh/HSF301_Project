@@ -20,9 +20,12 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model, HttpServletRequest request) {
-        User userDemo = userService.findByUsername("admin");
         HttpSession session = request.getSession();
-        session.setAttribute("USER", userDemo);
+        User currentUser = (User) session.getAttribute("USER");
+
+        if (currentUser != null) {
+            model.addAttribute("currentUser", currentUser);
+        }
         model.addAttribute("PRODUCT_LIST", productService.getAllProducts());
         return "index";
     }
