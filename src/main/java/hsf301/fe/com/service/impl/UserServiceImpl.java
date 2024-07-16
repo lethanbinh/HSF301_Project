@@ -24,8 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsernameAndPassword(UserDTO userDTO) {
-        User user = userRepository.findByEmailAndPassword(userDTO.getEmail(), userDTO.getPassword());
-        return user;
+        return userRepository.findByEmailAndPassword(userDTO.getEmail(), userDTO.getPassword());
     }
 
     @Override
