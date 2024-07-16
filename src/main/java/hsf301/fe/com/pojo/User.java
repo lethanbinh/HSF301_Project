@@ -35,6 +35,9 @@ public class User {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "status")
+    private boolean status = true;
+
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 
