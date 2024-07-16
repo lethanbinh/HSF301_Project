@@ -46,7 +46,7 @@ public class AccountController {
         ModelAndView mav = new ModelAndView("manage-account");
         List<User> accountList = userRepository.findAll();
         mav.addObject("ACCOUNT_LIST", accountList);
-        return mav;
+        return mav; 
     }
     @PostMapping("/manage-account")
     public void addOrEditAccount (@RequestBody AccountEditDTO accountEditDTO) {
