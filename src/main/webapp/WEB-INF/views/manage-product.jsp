@@ -252,15 +252,16 @@
             url: '/manage-product',
             data: JSON.stringify(data),
             contentType: 'application/json',
-            success: function() {
-                const deleteProductModal = bootstrap.Modal.getInstance(document.getElementById("deleteProductModal"));
-                deleteProductModal.hide();
-                window.location.reload();
+            success: function(response) {
+                alert(response);
             },
-            error: function(error) {
-                console.error('Error deleting product:', error);
+            error: function(response) {
+                alert(response);
             }
         });
+        const deleteProductModal = bootstrap.Modal.getInstance(document.getElementById("deleteProductModal"));
+        deleteProductModal.hide();
+        window.location.reload();
     }
 </script>
 

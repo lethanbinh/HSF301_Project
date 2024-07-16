@@ -8,6 +8,8 @@ import hsf301.fe.com.repository.ProductRepository;
 import hsf301.fe.com.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -57,9 +59,17 @@ public class ProductController {
     @PostMapping("/manage-product")
     public void addOrEditProduct (@RequestBody ProductEditDTO productEditDTO) {
         productRepository.save(ProductConverter.toProduct(productEditDTO));
+
     }
+    @ResponseBody
     @DeleteMapping("/manage-product")
-    public void deleteProduct (@RequestBody ProductEditDTO productEditDTO) {
-       productRepository.deleteById(Math.toIntExact(productEditDTO.getId()));
+    public ResponseEntity<String> deleteProduct (@RequestBody ProductEditDTO productEditDTO) {
+        int productId = Math.toIntExact(productEditDTO.getId());
+        Product product = productRepository.findById(productId);
+        if(!product.getOrderItems().isEmpty()){
+           return ResponseEntity.ok("Cannot delete this product!");
+        }
+        productRepository.deleteById(productId);
+        return ResponseEntity.ok("Delete product successfully");
     }
 }
