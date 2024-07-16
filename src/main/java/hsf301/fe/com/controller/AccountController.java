@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class AccountController {
@@ -18,7 +20,9 @@ public class AccountController {
     private final UserService userService;
 
     @GetMapping("/manage-account")
-    public String manageAccount () {
+    public String manageAccount (Model model) {
+        List<User> users = userService.listAllUser();
+        model.addAttribute("profiles", users);
         return "manage-account";
     }
 
@@ -48,5 +52,6 @@ public class AccountController {
             return "login";
         }
     }
+
 
 }

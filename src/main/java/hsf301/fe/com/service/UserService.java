@@ -5,9 +5,12 @@ import hsf301.fe.com.request.UserDTO;
 import hsf301.fe.com.request.UserRegisterDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface UserService {
     User findByUsername (String username);
     User findByUsernameAndPassword(UserDTO userDTO);
     String registerUser(UserRegisterDTO userRegisterDTO);
+    List<User> listAllUser();
 }
