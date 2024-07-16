@@ -22,6 +22,8 @@ public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
+
+
     //product list
     @GetMapping("/product-list")
     public ModelAndView product (@ModelAttribute("productSearch") ProductSearchRequestDTO productSearchRequestDTO) {
@@ -37,6 +39,7 @@ public class ProductController {
         mav.addObject("CATEGORY_LIST", categoryList);
         return mav;
     }
+
 
     @GetMapping("/product-detail")
     public String productDetail (Model model, HttpServletRequest request) {

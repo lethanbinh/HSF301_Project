@@ -4,8 +4,8 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductSearchRequestDTO {
@@ -13,4 +13,5 @@ public class ProductSearchRequestDTO {
     private String sort;
     private Long range;
     private List<String> categoryList;
+
 }

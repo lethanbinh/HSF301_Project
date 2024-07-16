@@ -19,7 +19,7 @@ public class HomeController {
     private UserService userService;
 
     @GetMapping("/")
-    public String home (Model model, HttpServletRequest request) {
+    public String home(Model model, HttpServletRequest request) {
         User userDemo = userService.findByUsername("admin");
         HttpSession session = request.getSession();
         session.setAttribute("USER", userDemo);
