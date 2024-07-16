@@ -1,5 +1,6 @@
 package hsf301.fe.com.service.impl;
 
+import hsf301.fe.com.dto.ProductSearchRequestDTO;
 import hsf301.fe.com.pojo.Product;
 import hsf301.fe.com.repository.ProductRepository;
 import hsf301.fe.com.service.ProductService;
@@ -25,7 +26,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProductCustom(String searchValue) {
-        return productRepository.getAllProductCustom(searchValue);
+    public List<Product> findAllCustom(ProductSearchRequestDTO productSearchRequestDTO) {
+        return productRepository.findAllCustom(productSearchRequestDTO);
     }
+
 }
