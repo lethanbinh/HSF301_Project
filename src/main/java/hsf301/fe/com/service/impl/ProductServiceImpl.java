@@ -1,7 +1,10 @@
 package hsf301.fe.com.service.impl;
 
+import hsf301.fe.com.dto.ProductSearchRequestDTO;
 import hsf301.fe.com.pojo.Product;
 import hsf301.fe.com.repository.ProductRepository;
+import hsf301.fe.com.repository.custom.ProductRepositoryCustom;
+import hsf301.fe.com.repository.custom.ProductRepositoryCustomImpl;
 import hsf301.fe.com.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ProductRepositoryCustomImpl productRepositoryCustom;
 
     @Override
     public Product findById(int productId) {
@@ -51,4 +57,8 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product);
     }
 
+    @Override
+    public List<Product> findAllCustom(ProductSearchRequestDTO productSearchRequestDTO) {
+        return productRepositoryCustom.findAllCustom(productSearchRequestDTO);
+    }
 }
