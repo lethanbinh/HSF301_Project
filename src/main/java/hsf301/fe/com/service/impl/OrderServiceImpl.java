@@ -110,6 +110,12 @@ public class OrderServiceImpl implements OrderService {
             orderItem.setQuantity(cartItem.getQuantity());
             orderItem.setItemPrice(cartItem.getItemPrice());
             orderItemRepository.save(orderItem);
+
+            Product product = orderItem.getProduct();
+            if (product.getStock() >= orderItem.getQuantity()) {
+                product.setStock(product.getStock() - orderItem.getQuantity());
+            }
+            productRepository.saveAndFlush(product);
         }
 
         // Clear the cart
