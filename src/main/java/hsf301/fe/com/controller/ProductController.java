@@ -1,13 +1,18 @@
 package hsf301.fe.com.controller;
 
+import hsf301.fe.com.dto.ProductSearchRequestDTO;
 import hsf301.fe.com.pojo.Product;
+import hsf301.fe.com.repository.ProductRepository;
 import hsf301.fe.com.service.ProductService;
-import hsf301.fe.com.service.impl.ProductServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ProductController {
@@ -15,10 +20,22 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @GetMapping("/product-list")
-    public String product (Model model) {
-        model.addAttribute("PRODUCT_LIST", productService.getAllProducts());
-        return "product";
+    public ModelAndView product (@ModelAttribute("productSearch") ProductSearchRequestDTO productSearchRequestDTO) {
+        ModelAndView mav = new ModelAndView("product");
+        List<Product> productList = productService.findAllCustom(productSearchRequestDTO);
+        mav.addObject("PRODUCT_LIST", productList);
+        List<String> categoryList = new ArrayList<String>();
+        for(Product product : productService.getAllProducts()) {
+            if(!categoryList.contains(product.getCategory())) {
+                categoryList.add(product.getCategory());
+            }
+        }
+        mav.addObject("CATEGORY_LIST", categoryList);
+        return mav;
     }
 
     @GetMapping("/product-detail")
