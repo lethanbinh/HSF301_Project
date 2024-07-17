@@ -161,6 +161,7 @@
                  data: $(this).serialize(),
                  success: function(response) {
                      // Show the success modal
+                     localStorage.setItem('cartTotalItems', 0);
                      $('#successModal').modal('show');
                  },
                  error: function(response) {
