@@ -150,6 +150,7 @@
     <script src="js/main.js"></script>
 
      <script>
+
      $(document).ready(function() {
          $('#checkout-form').submit(function(event) {
              event.preventDefault(); // Prevent the default form submission

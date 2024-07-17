@@ -26,7 +26,7 @@ public class Cart {
     @Column(name = "total")
     private double total;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartItem> cartItems;
 
     // Getters and setters
