@@ -49,6 +49,7 @@
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                     <a href="/manage-profile" class="dropdown-item">Manage Profile</a>
                                     <a href="/manage-order" class="dropdown-item">Manage Order</a>
+                                    <a href="/logout" class="dropdown-item">Logout</a>
                                 </div>
                             </div>
 
