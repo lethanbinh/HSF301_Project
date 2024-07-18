@@ -20,7 +20,6 @@ public class ProfileServiceImpl implements ProfileService {
         existedUser.setEmail(profileDTO.getEmail());
         existedUser.setAddress(profileDTO.getAddress());
         existedUser.setUsername(profileDTO.getName());
-        existedUser.setAvatar(profileDTO.getAvatar());
         userRepository.save(existedUser);
         return existedUser;
     }

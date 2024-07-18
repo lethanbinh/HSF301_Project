@@ -88,10 +88,6 @@
                                 <label for="address" class="form-label">Address</label>
                                 <input type="text" class="form-control" id="address" name="address" value="${user.address}">
                             </div>
-                            <div class="mb-3">
-                                <label for="image" class="form-label">Upload Avatar</label>
-                                <input type="url" class="form-control" id="image" name="image" value="${user.avatar}">
-                            </div>
                             <button type="submit" class="btn btn-primary">Save Changes</button>
                         </form>
                     </div>
