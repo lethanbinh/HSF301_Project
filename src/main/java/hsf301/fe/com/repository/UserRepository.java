@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByUsername (String username);
     User findByEmailAndPassword (String email, String password);
 
-    @Query("SELECT u FROM User u WHERE u.status = true")
+    @Query("SELECT u FROM User u WHERE u.status = true AND u.role = 'USER'")
     List<User> listAllUser();
 
     long countByEmailOrUsernameOrPhone(String email, String username, String phone);
