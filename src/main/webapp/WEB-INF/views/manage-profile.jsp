@@ -47,6 +47,9 @@
 <!-- Profile Start -->
 <div class="container-fluid py-5">
     <div class="container py-5">
+        <c:if test="${empty sessionScope.USER}">
+            <c:redirect url="login"/>
+        </c:if>
         <c:if test="${not empty msg}">
             <c:out value="${msg}"/>
         </c:if>

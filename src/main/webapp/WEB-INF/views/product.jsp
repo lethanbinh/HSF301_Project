@@ -51,6 +51,9 @@
 <!-- Fruits Shop Start-->
 <div class="container-fluid fruite py-5">
     <div class="container py-5">
+        <c:if test="${empty sessionScope.USER}">
+            <c:redirect url="login"/>
+        </c:if>
         <h1 class="mb-4">Fresh fruits shop</h1>
         <div class="row g-4">
             <div class="col-xl-3">

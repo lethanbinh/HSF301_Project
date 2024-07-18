@@ -41,7 +41,9 @@
         </ol>
     </div>
     <!-- Single Page Header End -->
-
+    <c:if test="${empty sessionScope.USER}">
+        <c:redirect url="login"/>
+    </c:if>
     <!-- Single Product Start -->
     <div class="container-fluid py-5 mt-5">
         <div class="container py-5">

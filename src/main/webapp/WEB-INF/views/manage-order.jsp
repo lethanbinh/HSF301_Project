@@ -41,7 +41,9 @@
         <%--                <input type="text" id="searchInput" class="form-control" placeholder="Search orders by customer name..." onkeyup="filterOrders()">--%>
         <%--            </div>--%>
         <!-- Search Bar End -->
-
+        <c:if test="${empty sessionScope.USER}">
+            <c:redirect url="login"/>
+        </c:if>
         <!-- Orders Table Start -->
         <div class="table-responsive">
             <table class="table table-bordered" id="ordersTable">

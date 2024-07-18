@@ -32,6 +32,9 @@
 </head>
 <body>
     <jsp:include page="./common/header.jsp"></jsp:include>
+    <c:if test="${empty sessionScope.USER}">
+        <c:redirect url="login"/>
+    </c:if>
     <c:if test="${not empty SUCCESS_MESSAGE}">
         <div class="alert alert-success">
             ${SUCCESS_MESSAGE}

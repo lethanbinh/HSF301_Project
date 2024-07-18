@@ -45,7 +45,9 @@
             ${ERROR_MESSAGE}
         </div>
     </c:if>
-
+    <c:if test="${empty sessionScope.USER}">
+        <c:redirect url="login"/>
+    </c:if>
     <!-- Hero Start -->
     <div class="container-fluid py-5 mb-5 hero-header">
         <div class="container py-5">
