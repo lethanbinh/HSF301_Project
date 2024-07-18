@@ -22,13 +22,18 @@
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="/" class="nav-item nav-link">Home</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Product</a>
-                                <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="/product-list" class="dropdown-item">View product</a>
-                                    <a href="/manage-product" class="dropdown-item">Manage product</a>
+                            <c:if test="${not empty sessionScope.USER && sessionScope.USER.role eq 'USER'}">
+                                <a href="/product-list" class="nav-item nav-link">View product</a>
+                            </c:if>
+                            <c:if test="${not empty sessionScope.USER && sessionScope.USER.role eq 'ADMIN'}">
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Product</a>
+                                    <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                        <a href="/product-list" class="dropdown-item">View product</a>
+                                        <a href="/manage-product" class="dropdown-item">Manage product</a>
+                                    </div>
                                 </div>
-                            </div>
+                            </c:if>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Account</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
