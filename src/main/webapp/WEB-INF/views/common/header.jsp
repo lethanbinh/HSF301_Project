@@ -34,12 +34,15 @@
                                     </div>
                                 </div>
                             </c:if>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Account</a>
-                                <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="/manage-account" class="dropdown-item">Manage Account</a>
+                            <c:if test="${not empty sessionScope.USER && sessionScope.USER.role eq 'ADMIN'}">
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Account</a>
+                                    <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                        <a href="/manage-account" class="dropdown-item">Manage Account</a>
+                                    </div>
                                 </div>
-                            </div>
+                            </c:if>
+
                         </div>
                         <div class="d-flex m-3 me-0">
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
@@ -52,6 +55,7 @@
                                     <i class="fas fa-user fa-2x"></i>
                                 </a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
+
                                     <a href="/manage-profile" class="dropdown-item">Manage Profile</a>
                                     <a href="/manage-order" class="dropdown-item">Manage Order</a>
                                     <a href="/logout" class="dropdown-item">Logout</a>
