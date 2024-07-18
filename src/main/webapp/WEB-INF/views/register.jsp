@@ -49,6 +49,11 @@
                                 ${notMatch}
                         </div>
                     </c:if>
+                    <c:if test="${not empty successMessage}">
+                        <div class="alert alert-success mt-3" role="alert">
+                                ${successMessage}
+                        </div>
+                    </c:if>
                     <p class="mt-3 text-center">Already have an account? <a href="/login">Login here</a></p>
                 </div>
             </div>

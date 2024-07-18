@@ -47,50 +47,57 @@
 <!-- Profile Start -->
 <div class="container-fluid py-5">
     <div class="container py-5">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="bg-light rounded p-4 mb-4">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <img src="img/profile.png" alt="Profile Image" class="img-fluid rounded-circle" style="width: 100px; height: 100px;">
-                        </div>
-                        <div class="ms-3">
-                            <h4 class="text-primary">${user.username}</h4>
-                            <p>Member since Jan 2022</p>
+        <c:if test="${not empty msg}">
+            <c:out value="${msg}"/>
+        </c:if>
+        <c:if test="${not empty user}">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="bg-light rounded p-4 mb-4">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <c:if test="${not empty user.avatar}">
+                                    <img src="${user.avatar}" alt="Profile Image" class="img-fluid rounded-circle" style="width: 100px; height: 100px;">
+                                </c:if>
+                            </div>
+                            <div class="ms-3">
+                                <h4 class="text-primary">${user.username}</h4>
+                                <p>Member since Jan 2022</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="bg-light rounded p-4">
-                    <h4 class="text-primary">Account Details</h4>
-                    <form action="profile/update" method="post">
-                        <input type="hidden" name="id" value="${user.id}">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">User Name</label>
-                            <input type="text" class="form-control" id="name" name="name" value="${user.username}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="${user.email}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Phone</label>
-                            <input type="text" class="form-control" id="phone" name="phone" value="${user.phone}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
-                            <input type="text" class="form-control" id="address" name="address" value="${user.address}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="file" class="form-label">Upload Avatar</label>
-                            <input type="file" class="form-control" id="image" name="image">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </form>
+                <div class="col-lg-8">
+                    <div class="bg-light rounded p-4">
+                        <h4 class="text-primary">Account Details</h4>
+                        <form action="profile/update" method="post">
+                            <input type="hidden" name="id" value="${user.id}">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">User Name</label>
+                                <input type="text" class="form-control" id="name" name="name" value="${user.username}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" value="${user.email}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" id="phone" name="phone" value="${user.phone}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" name="address" value="${user.address}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Upload Avatar</label>
+                                <input type="url" class="form-control" id="image" name="image" value="${user.avatar}">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </c:if>
     </div>
 </div>
 <!-- Profile End -->
