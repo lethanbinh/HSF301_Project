@@ -123,7 +123,7 @@ public class OrderServiceImpl implements OrderService {
 
         // Clear the cart
         cartItemRepository.deleteAll(cart.getCartItems());
-        cart.setCartItems(new ArrayList<>());
+        cart.getCartItems().clear();
         cartRepository.delete(cart);
 
         return true;
