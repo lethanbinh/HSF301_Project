@@ -54,7 +54,7 @@
         <c:if test="${empty sessionScope.USER}">
             <c:redirect url="login"/>
         </c:if>
-        <h1 class="mb-4">Fresh fruits shop</h1>
+        <h1 class="mb-4">Milk for mother and babies</h1>
         <div class="row g-4">
             <div class="col-xl-3">
                 <form:form method="GET" action="/product-list" id="form-search" modelAttribute="productSearch">
