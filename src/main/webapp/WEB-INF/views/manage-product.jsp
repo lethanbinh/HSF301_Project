@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>MilkHaven - Milk for mothers and babies</title>
+    <title>MilkHeaven - Milk for mothers and babies</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -39,67 +39,74 @@
 <div class="container-fluid py-5">
     <div class="container py-5">
         <h4 class="text-primary mb-4">Manage Products</h4>
+        <c:if test="${empty sessionScope.USER}">
+            <c:redirect url="login"/>
+        </c:if>
+        <c:if test="${not empty sessionScope.USER && sessionScope.USER.role eq 'USER'}">
+            <h1 class="alert-warning">Your role is not allow</h1>
+        </c:if>
+        <c:if test="${not empty sessionScope.USER && sessionScope.USER.role eq 'ADMIN'}">
+            <!-- Search Bar Start -->
+            <div class="mb-4">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search products by name..."
+                       onkeyup="filterProducts()">
+            </div>
+            <!-- Search Bar End -->
 
-        <!-- Search Bar Start -->
-        <div class="mb-4">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search products by name..."
-                   onkeyup="filterProducts()">
-        </div>
-        <!-- Search Bar End -->
+            <!-- Add Product Button Start -->
+            <div class="mb-4">
+                <button class="btn btn-primary" onclick="showAddProductModal()">Add Product</button>
+            </div>
+            <!-- Add Product Button End -->
 
-        <!-- Add Product Button Start -->
-        <div class="mb-4">
-            <button class="btn btn-primary" onclick="showAddProductModal()">Add Product</button>
-        </div>
-        <!-- Add Product Button End -->
-
-        <!-- Products Table Start -->
-        <div class="table-responsive">
-            <table class="table table-bordered" id="productsTable">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Category</th>
-                    <th>Stock</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="product" items="${products}">
+            <!-- Products Table Start -->
+            <div class="table-responsive">
+                <table class="table table-bordered" id="productsTable">
+                    <thead>
                     <tr>
-                        <td><c:out value="${product.id}"/></td>
-                        <td>
-                            <c:if test="${not empty product.imageUrl}">
-                                <img src="${product.imageUrl}" alt="Product Image" style="width: 50px; height: auto;">
-                            </c:if>
-                        </td>
-                        <td><c:out value="${product.name}"/></td>
-                        <td><c:out value="${product.price}"/></td>
-                        <td><c:out value="${product.category}"/></td>
-                        <td><c:out value="${product.stock}"/></td>
-                        <td><c:out value="${product.description}"/></td>
-                        <td>
-                            <form method="post">
-                                <button type="button" class="btn btn-sm btn-warning"
-                                        onclick="showEditProductModal(this)">Edit
-                                </button>
-                            </form>
-                            <form id="deleteProductForm" action="" method="post">
-                                <button type="button" class="btn btn-sm btn-danger"
-                                        onclick="showDeleteModal(${product.id})">Delete
-                                </button>
-                            </form>
-                        </td>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Stock</th>
+                        <th>Description</th>
+                        <th>Actions</th>
                     </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
-        <!-- Products Table End -->
+                    </thead>
+                    <tbody>
+                    <c:forEach var="product" items="${products}">
+                        <tr>
+                            <td><c:out value="${product.id}"/></td>
+                            <td>
+                                <c:if test="${not empty product.imageUrl}">
+                                    <img src="${product.imageUrl}" alt="Product Image" style="width: 50px; height: auto;">
+                                </c:if>
+                            </td>
+                            <td><c:out value="${product.name}"/></td>
+                            <td><c:out value="${product.price}"/></td>
+                            <td><c:out value="${product.category}"/></td>
+                            <td><c:out value="${product.stock}"/></td>
+                            <td><c:out value="${product.description}"/></td>
+                            <td>
+                                <form method="post">
+                                    <button type="button" class="btn btn-sm btn-warning"
+                                            onclick="showEditProductModal(this)">Edit
+                                    </button>
+                                </form>
+                                <form id="deleteProductForm" action="" method="post">
+                                    <button type="button" class="btn btn-sm btn-danger"
+                                            onclick="showDeleteModal(${product.id})">Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Products Table End -->
+        </c:if>
     </div>
 </div>
 <!-- Product Management End -->

@@ -50,8 +50,9 @@ public class OrderController {
 
     @GetMapping("/cart")
     public String cart(Model model, HttpServletRequest request) {
-        String username = request.getParameter("username");
         HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("USER");
+        String username = user.getUsername();
         List<CartItem> cartItems = cartRepository.findByUserUsername(username).getCartItems();
         List<CartItemDTO> cartItemDTOs = CartItemMapper.toDTOs(cartItems);
         session.setAttribute("CART", cartItemDTOs);
@@ -88,14 +89,15 @@ public class OrderController {
 
     @PostMapping("/cart/add-item")
     public String addItemToCart(Model model, HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        User currentUser = (User) session.getAttribute("USER");
         try {
             int productId = Integer.parseInt(request.getParameter("productId"));
-            String username = request.getParameter("username");
+            String username = currentUser.getUsername();
 
             if (productService.findById(productId) != null) {
                 Cart cart = orderService.addItemToCart(productId, username);
                 if (cart != null) {
-                    HttpSession session = request.getSession();
                     List<CartItemDTO> cartItemDTOs = CartItemMapper.toDTOs(cart.getCartItems());
                     session.setAttribute("CART", cartItemDTOs);
 

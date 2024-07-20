@@ -22,11 +22,12 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @GetMapping("/manage-profile")
-    public ModelAndView manageProfile (HttpSession session) {
+    public ModelAndView manageProfile (HttpSession session, Model model) {
         ModelAndView mav = new ModelAndView();
         User user = (User) session.getAttribute("USER");
         if (user == null){
             System.out.println("user is null");
+            model.addAttribute("msg", "Login to see your profile");
         }
         mav.addObject("user", user);
         mav.setViewName("manage-profile");

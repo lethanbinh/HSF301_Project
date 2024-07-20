@@ -8,7 +8,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>MilkHaven - Milk for mothers and babies</title>
+    <title>MilkHeaven - Milk for mothers and babies</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -51,6 +51,9 @@
 <!-- Fruits Shop Start-->
 <div class="container-fluid fruite py-5">
     <div class="container py-5">
+        <c:if test="${empty sessionScope.USER}">
+            <c:redirect url="login"/>
+        </c:if>
         <h1 class="mb-4">Fresh fruits shop</h1>
         <div class="row g-4">
             <div class="col-xl-3">

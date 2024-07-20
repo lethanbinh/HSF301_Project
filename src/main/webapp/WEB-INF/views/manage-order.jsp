@@ -3,7 +3,7 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <head>
     <meta charset="utf-8">
-    <title>MilkHaven - Milk for mothers and babies</title>
+    <title>MilkHeaven - Milk for mothers and babies</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -41,7 +41,9 @@
         <%--                <input type="text" id="searchInput" class="form-control" placeholder="Search orders by customer name..." onkeyup="filterOrders()">--%>
         <%--            </div>--%>
         <!-- Search Bar End -->
-
+        <c:if test="${empty sessionScope.USER}">
+            <c:redirect url="login"/>
+        </c:if>
         <!-- Orders Table Start -->
         <div class="table-responsive">
             <table class="table table-bordered" id="ordersTable">

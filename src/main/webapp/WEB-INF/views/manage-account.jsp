@@ -7,7 +7,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>MilkHaven - Milk for mothers and babies</title>
+    <title>MilkHeaven - Milk for mothers and babies</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -39,54 +39,62 @@
 <div class="container-fluid py-5" style="min-height: 80vh">
     <div class="container py-5">
         <h4 class="text-primary mb-4">Manage Accounts</h4>
+        <c:if test="${empty sessionScope.USER}">
+            <c:redirect url="login"/>
+        </c:if>
+        <c:if test="${not empty sessionScope.USER && sessionScope.USER.role eq 'USER'}">
+            <h1 class="alert-warning">Your role is not allow</h1>
+        </c:if>
 
-        <!-- Search Bar Start -->
-        <div class="mb-4">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search accounts by name, email or phone..." onkeyup="filterAccounts()">
-        </div>
-        <!-- Search Bar End -->
+       <c:if test="${not empty sessionScope.USER && sessionScope.USER.role eq 'ADMIN'}">
+           <!-- Search Bar Start -->
+           <div class="mb-4">
+               <input type="text" id="searchInput" class="form-control" placeholder="Search accounts by name, email or phone..." onkeyup="filterAccounts()">
+           </div>
+           <!-- Search Bar End -->
 
-        <!-- Add Account Button Start -->
-        <div class="mb-4">
-            <button class="btn btn-primary" onclick="showAddAccountModal()">Add Account</button>
-        </div>
+           <!-- Add Account Button Start -->
+           <div class="mb-4">
+               <button class="btn btn-primary" onclick="showAddAccountModal()">Add Account</button>
+           </div>
 
-        <!-- Accounts Table Start -->
-        <div class="table-responsive">
-            <table class="table table-bordered" id="accountsTable">
-                <thead>
-                <tr>
-                    <th>Profile Image</th>
-                    <th>UserName</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- Sample Account Row Start -->
-                <c:if test="${not empty ACCOUNT_LIST}">
-                    <c:forEach var="account" items="${ACCOUNT_LIST}">
-                        <tr>
-                            <td><img src="${account.avatar}" alt="Profile Image" class="img-fluid rounded-circle" style="width: 50px; height: 50px;"></td>
-                            <td>${account.username}</td>
-                            <td>${account.email}</td>
-                            <td>${account.phone}</td>
-                            <td>${account.address}</td>
-                            <td>${account.status ? 'Active' : 'Inactive'}</td>
-                            <td>
-                                <button class="btn btn-sm btn-warning" onclick="showEditAccountModal(this, ${account.id})">Edit</button>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </c:if>
-                <!-- Sample Account Row End -->
-                </tbody>
-            </table>
-        </div>
-        <!-- Accounts Table End -->
+           <!-- Accounts Table Start -->
+           <div class="table-responsive">
+               <table class="table table-bordered" id="accountsTable">
+                   <thead>
+                   <tr>
+                       <th>Profile Image</th>
+                       <th>UserName</th>
+                       <th>Email</th>
+                       <th>Phone</th>
+                       <th>Address</th>
+                       <th>Status</th>
+                       <th>Actions</th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   <!-- Sample Account Row Start -->
+                   <c:if test="${not empty ACCOUNT_LIST}">
+                       <c:forEach var="account" items="${ACCOUNT_LIST}">
+                           <tr>
+                               <td><img src="${account.avatar}" alt="Profile Image" class="img-fluid rounded-circle" style="width: 50px; height: 50px;"></td>
+                               <td>${account.username}</td>
+                               <td>${account.email}</td>
+                               <td>${account.phone}</td>
+                               <td>${account.address}</td>
+                               <td>${account.status ? 'Active' : 'Inactive'}</td>
+                               <td>
+                                   <button class="btn btn-sm btn-warning" onclick="showEditAccountModal(this, ${account.id})">Edit</button>
+                               </td>
+                           </tr>
+                       </c:forEach>
+                   </c:if>
+                   <!-- Sample Account Row End -->
+                   </tbody>
+               </table>
+           </div>
+           <!-- Accounts Table End -->
+        </c:if>
     </div>
 </div>
 <!-- Account Management End -->

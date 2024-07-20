@@ -30,21 +30,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public String registerUser(UserRegisterDTO userRegisterDTO) {
         if (!userRegisterDTO.getPassword().equals(userRegisterDTO.getConfirmPassword())) {
-            return null;
-        } else {
-            User user = new User();
-            user.setEmail(userRegisterDTO.getEmail());
-            user.setPassword(userRegisterDTO.getPassword());
-            user.setUsername(userRegisterDTO.getUsername());
-            user.setPhone(userRegisterDTO.getPhone());
-            user.setRole("USER");
-            userRepository.save(user);
-            return "success";
+            return "Passwords do not match";
         }
+
+        if (validateRegisterUser(userRegisterDTO)) {
+            return "User already exists with provided email, username or phone";
+        }
+
+        User user = new User();
+        user.setEmail(userRegisterDTO.getEmail());
+        user.setPassword(userRegisterDTO.getPassword());
+        user.setUsername(userRegisterDTO.getUsername());
+        user.setPhone(userRegisterDTO.getPhone());
+        user.setRole("USER");
+        userRepository.save(user);
+
+        return "success";
     }
+
+    private boolean validateRegisterUser(UserRegisterDTO userRegisterDTO) {
+        String email = userRegisterDTO.getEmail();
+        String username = userRegisterDTO.getUsername();
+        String phone = userRegisterDTO.getPhone();
+        long count = userRepository.countByEmailOrUsernameOrPhone(email, username, phone);
+        return count > 0;
+    }
+
 
     @Override
     public List<User> listAllUser() {
-        return userRepository.findAll();
+        return userRepository.listAllUser();
     }
 }

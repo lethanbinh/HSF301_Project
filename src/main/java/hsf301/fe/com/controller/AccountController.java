@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class AccountController {
     @GetMapping("/manage-account")
     public ModelAndView showManageAccount () {
         ModelAndView mav = new ModelAndView("manage-account");
-        List<User> accountList = userRepository.findAll();
+        List<User> accountList = userRepository.listAllUser();
         mav.addObject("ACCOUNT_LIST", accountList);
         return mav;
     }
@@ -57,28 +58,26 @@ public class AccountController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute UserDTO userDTO, HttpServletRequest request, Model model){
-        // đưa biến user vô session
+    public String login(@ModelAttribute UserDTO userDTO, HttpServletRequest request, RedirectAttributes redirectAttributes){
         User user = userService.findByUsernameAndPassword(userDTO);
         HttpSession session = request.getSession();
-        if (user != null){
+        if (user != null && user.isStatus()){
             session.setAttribute("USER", user);
             return "redirect:/";
         } else {
-            model.addAttribute("loginError", "Invalid username or password. Please try again.");
+            redirectAttributes.addFlashAttribute("loginError", "Invalid username or password. Please try again.");
             return "redirect:/login";
         }
     }
 
     @PostMapping("/register")
     public String register(@ModelAttribute UserRegisterDTO userRegisterDTO, Model model){
-        // đưa biến user vô session
         String result = userService.registerUser(userRegisterDTO);
-        if (result == null){
-          model.addAttribute("notMatch", "Password doesn't match with confirm password");
-          return "register";
+        if (!"success".equals(result)) {
+            model.addAttribute("notMatch", result);
+            return "register";
         } else {
-            model.addAttribute("notMatch", "User has been registered successfully");
+            model.addAttribute("successMessage", "User has been registered successfully");
             return "login";
         }
     }

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>MilkHaven - Milk for mothers and babies</title>
+    <title>MilkHeaven - Milk for mothers and babies</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
@@ -47,6 +47,11 @@
                     <c:if test="${not empty notMatch}">
                         <div class="alert alert-danger mt-3" role="alert">
                                 ${notMatch}
+                        </div>
+                    </c:if>
+                    <c:if test="${not empty successMessage}">
+                        <div class="alert alert-success mt-3" role="alert">
+                                ${successMessage}
                         </div>
                     </c:if>
                     <p class="mt-3 text-center">Already have an account? <a href="/login">Login here</a></p>

@@ -62,7 +62,7 @@ public class ProductController {
                              @RequestParam("category") String category,
                              @RequestParam("stock") int stock,
                              @RequestParam("imageFileName") String imageFileName) {
-        Product product = new Product(name, description, price, category, stock, imageFileName);
+        Product product = new Product(name, description, price, category, stock, imageFileName, true);
         productService.save(product);
         return "redirect:/manage-product";
     }
