@@ -3,7 +3,6 @@ package hsf301.fe.com.service.impl;
 import hsf301.fe.com.dto.ProductSearchRequestDTO;
 import hsf301.fe.com.pojo.Product;
 import hsf301.fe.com.repository.ProductRepository;
-import hsf301.fe.com.repository.custom.ProductRepositoryCustom;
 import hsf301.fe.com.repository.custom.ProductRepositoryCustomImpl;
 import hsf301.fe.com.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
