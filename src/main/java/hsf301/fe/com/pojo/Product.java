@@ -41,13 +41,14 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<OrderItem> orderItems;
 
-    public Product(String name, String description, double price, String category, int stock, String imageUrl) {
+    public Product(String name, String description, double price, String category, int stock, String imageUrl, boolean status) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
         this.stock = stock;
         this.imageUrl = imageUrl;
+        status = true;
     }
 
 

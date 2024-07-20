@@ -46,7 +46,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
     @Override
     public List<Product> findAllCustom(ProductSearchRequestDTO productSearchRequestDTO) {
         // sql
-        StringBuilder sql = new StringBuilder("SELECT products.* FROM products ") ;
+        StringBuilder sql = new StringBuilder("SELECT products.* FROM dbexam.products ") ;
         StringBuilder where = new StringBuilder(" WHERE 1=1 ");
         StringBuilder groupBy = new StringBuilder(" GROUP BY products.id ");
         StringBuilder orderBy = new StringBuilder("");
